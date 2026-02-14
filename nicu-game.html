@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NICU 早產兒合併症評估模擬器</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg-deep: #0d1b2a;
+  --bg-panel: #1b2d44;
+  --bg-card: #213448;
+  --accent-blue: #5dadec;
+  --accent-teal: #4ecdc4;
+  --accent-coral: #ff6b6b;
+  --accent-amber: #f4a261;
+  --accent-green: #6bcb77;
+  --text-primary: #e8edf2;
+  --text-secondary: #8fa3b8;
+  --text-dim: #5a7085;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(93,173,236,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93,173,236,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==================== TITLE SCREEN ==================== */
+#title-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+}
+
+.title-badge {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  color: var(--bg-deep);
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeSlideDown 0.8s ease;
+}
+
+.title-main {
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  animation: fadeSlideDown 0.8s ease 0.1s both;
+}
+
+.title-main .highlight {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  animation: fadeSlideDown 0.8s ease 0.2s both;
+}
+
+.title-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  max-width: 600px;
+  margin-bottom: 3rem;
+  animation: fadeSlideDown 0.8s ease 0.3s both;
+}
+
+.condition-tag {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+.condition-tag:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.btn-start {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  color: var(--bg-deep);
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: fadeSlideDown 0.8s ease 0.4s both;
+}
+
+.btn-start:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(93,173,236,0.3);
+}
+
+/* ==================== GAME SCREEN ==================== */
+#game-screen {
+  display: none;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: rgba(27, 45, 68, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(93,173,236,0.1);
+}
+
+.round-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.round-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 6px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.score-display .score-icon { color: var(--accent-amber); }
+.score-display .score-val { color: var(--accent-amber); font-weight: 600; }
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 60px);
+}
+
+/* Left Panel - Clues */
+.clues-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(93,173,236,0.1);
+}
+
+.clue-instruction {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding: 0.8rem;
+  background: rgba(93,173,236,0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.clue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.clue-item {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.1);
+  border-radius: 8px;
+  padding: 0.8rem;
+  animation: clueAppear 0.4s ease;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.clue-item .clue-label {
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 0.75rem;
+  margin-bottom: 0.3rem;
+}
+
+.clue-item .clue-text { color: var(--text-secondary); }
+
+@keyframes clueAppear {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ==================== INCUBATOR & BABY ==================== */
+.incubator-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.incubator-frame {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3/4;
+  background: rgba(173, 216, 255, 0.05);
+  border: 2px solid rgba(93,173,236,0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(93,173,236,0.05), inset 0 0 60px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incubator-label {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.incubator-temp {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-teal);
+  z-index: 5;
+}
+
+/* Baby image wrapper - holds the PNG and all overlays */
+.baby-wrapper {
+  position: relative;
+  width: 80%;
+  max-width: 340px;
+}
+
+.baby-wrapper img.baby-base {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.5s ease;
+}
+
+/* Condition-specific image filters */
+.baby-wrapper.cond-rds img.baby-base {
+  filter: hue-rotate(220deg) saturate(0.5) brightness(0.92);
+  /* Gives a blue-purple cyanotic tint */
+}
+
+.baby-wrapper.cond-ivh img.baby-base {
+  filter: saturate(0.35) brightness(1.05);
+  /* Pale / anemic look */
+}
+
+.baby-wrapper.cond-nec img.baby-base {
+  filter: saturate(0.55) brightness(0.9) sepia(0.15);
+  /* Grayish, unwell look */
+}
+
+.baby-wrapper.cond-pda img.baby-base,
+.baby-wrapper.cond-rop img.baby-base {
+  filter: none;
+}
+
+/* ==================== HOTSPOT ZONES ==================== */
+.hotspot-zone {
+  position: absolute;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 10;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.hotspot-zone::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(93,173,236,0.35);
+  animation: hotspotPulse 2s ease-in-out infinite;
+}
+
+.hotspot-zone:hover::before {
+  border-color: rgba(93,173,236,0.7);
+}
+
+.hotspot-zone:hover {
+  background: rgba(93,173,236,0.12);
+}
+
+.hotspot-zone.discovered::before {
+  border-color: rgba(78,205,196,0.4);
+  animation: none;
+}
+
+.hotspot-zone.discovered {
+  background: rgba(78,205,196,0.08);
+}
+
+/* Zone positions (percentage-based, relative to baby image) */
+.zone-head      { width: 40%; height: 14%; top: 0%;   left: 28%; border-radius: 40%; }
+.zone-face      { width: 32%; height: 16%; top: 16%;  left: 34%; border-radius: 40%; }
+.zone-chest     { width: 30%; height: 12%; top: 42%;  left: 35%; border-radius: 40%; }
+.zone-abdomen   { width: 26%; height: 12%; top: 54%;  left: 37%; border-radius: 40%; }
+.zone-limbs     { width: 92%; height: 22%; top: 68%;  left: 4%;  border-radius: 30%; }
+.zone-monitor   { width: 26%; height: 12%; top: -2%;  right: -4%; left: auto; border-radius: 8px; background: rgba(93,173,236,0.06); border: 1px solid rgba(93,173,236,0.18); display: flex; align-items: center; justify-content: center; gap: 4px; }
+.zone-monitor::before { border-radius: 8px; }
+
+/* ==================== SYMPTOM OVERLAYS (CSS effects on baby) ==================== */
+
+/* RDS - Chest retraction breathing animation */
+.baby-wrapper.cond-rds .overlay-chest-retract {
+  display: block;
+}
+
+.overlay-chest-retract {
+  display: none;
+  position: absolute;
+  top: 42%;
+  left: 32%;
+  width: 36%;
+  height: 14%;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.08);
+  animation: chestRetract 1.3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes chestRetract {
+  0%, 100% { transform: scaleY(1); opacity: 0; }
+  40% { transform: scaleY(0.7); opacity: 0.25; }
+  60% { transform: scaleY(0.8); opacity: 0.15; }
+}
+
+/* RDS - Nasal flare indicators */
+.baby-wrapper.cond-rds .overlay-nasal-flare {
+  display: block;
+}
+
+.overlay-nasal-flare {
+  display: none;
+  position: absolute;
+  top: 26%;
+  left: 46%;
+  width: 10%;
+  height: 4%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.overlay-nasal-flare::before,
+.overlay-nasal-flare::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 6px;
+  background: rgba(180,130,160,0.5);
+  border-radius: 50%;
+  animation: nasalFlare 1.3s ease-in-out infinite;
+}
+
+.overlay-nasal-flare::before { left: 0; }
+.overlay-nasal-flare::after { right: 0; }
+
+@keyframes nasalFlare {
+  0%, 60%, 100% { transform: scaleX(1); }
+  30% { transform: scaleX(1.6); }
+}
+
+/* RDS - Grunt sound waves from mouth */
+.baby-wrapper.cond-rds .overlay-grunt-waves {
+  display: flex;
+}
+
+.overlay-grunt-waves {
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 62%;
+  gap: 3px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.grunt-wave {
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid rgba(180,130,160,0.6);
+  border-radius: 50%;
+  animation: gruntWave 1.8s ease-out infinite;
+}
+
+.grunt-wave:nth-child(2) { animation-delay: 0.3s; }
+.grunt-wave:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes gruntWave {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 0.7; }
+  100% { opacity: 0; transform: scale(1.8) translateX(8px); }
+}
+
+/* PDA - Heart pulse glow */
+.baby-wrapper.cond-pda .overlay-heart-pulse {
+  display: block;
+}
+
+.overlay-heart-pulse {
+  display: none;
+  position: absolute;
+  top: 43%;
+  left: 38%;
+  width: 24%;
+  height: 10%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.overlay-heart-pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255,107,107,0.15);
+  animation: heartPulse 0.8s ease infinite;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  15% { transform: scale(1.2); opacity: 0.6; }
+  30% { transform: scale(1); opacity: 0.3; }
+  45% { transform: scale(1.1); opacity: 0.5; }
+}
+
+/* PDA - Bounding pulse on wrists */
+.baby-wrapper.cond-pda .overlay-bounding-pulse {
+  display: block;
+}
+
+.overlay-bounding-pulse {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.bounding-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255,107,107,0.5);
+  border-radius: 50%;
+  animation: boundingPulse 0.8s ease infinite;
+}
+
+.bounding-dot.left-wrist  { top: 0; left: 0; }
+.bounding-dot.right-wrist { top: 0; right: 0; }
+
+.bounding-dot:nth-child(2) { animation-delay: 0.4s; }
+
+@keyframes boundingPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.5); opacity: 0.8; }
+}
+
+/* PDA - Murmur wave lines near left upper chest */
+.baby-wrapper.cond-pda .overlay-murmur {
+  display: block;
+}
+
+.overlay-murmur {
+  display: none;
+  position: absolute;
+  top: 42%;
+  left: 28%;
+  width: 20px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.murmur-line {
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background: rgba(93,173,236,0.5);
+  border-radius: 1px;
+  animation: murmurWave 1.2s linear infinite;
+}
+
+.murmur-line:nth-child(1) { top: 5px; }
+.murmur-line:nth-child(2) { top: 13px; animation-delay: 0.4s; }
+.murmur-line:nth-child(3) { top: 21px; animation-delay: 0.8s; }
+
+@keyframes murmurWave {
+  0% { opacity: 0.5; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-18px); }
+}
+
+/* IVH - Fontanelle bulge indicator */
+.baby-wrapper.cond-ivh .overlay-fontanelle {
+  display: block;
+}
+
+.overlay-fontanelle {
+  display: none;
+  position: absolute;
+  top: 1%;
+  left: 42%;
+  width: 16%;
+  height: 6%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.overlay-fontanelle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255,180,160,0.25);
+  animation: fontanelleBulge 2s ease-in-out infinite;
+}
+
+@keyframes fontanelleBulge {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.5) translateY(-3px); }
+}
+
+/* IVH - Seizure body twitch */
+.baby-wrapper.cond-ivh {
+  animation: seizureTwitch 4s ease infinite;
+}
+
+@keyframes seizureTwitch {
+  0%, 84%, 100% { transform: translateX(0) rotate(0deg); }
+  86% { transform: translateX(2px) rotate(0.4deg); }
+  88% { transform: translateX(-3px) rotate(-0.5deg); }
+  90% { transform: translateX(2px) rotate(0.3deg); }
+  92% { transform: translateX(-1px) rotate(-0.2deg); }
+  94% { transform: translateX(1px) rotate(0.1deg); }
+}
+
+/* NEC - Abdomen distension glow */
+.baby-wrapper.cond-nec .overlay-abdomen-distend {
+  display: block;
+}
+
+.overlay-abdomen-distend {
+  display: none;
+  position: absolute;
+  top: 55%;
+  left: 34%;
+  width: 32%;
+  height: 14%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  animation: abdDistend 3s ease-in-out infinite;
+}
+
+.overlay-abdomen-distend::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(240,200,170,0.2);
+  box-shadow: 0 0 15px rgba(240,180,140,0.15);
+}
+
+/* NEC shiny highlight on belly */
+.overlay-abdomen-distend::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 40%;
+  height: 30%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+
+@keyframes abdDistend {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+/* NEC - Blood spot indicator near diaper */
+.baby-wrapper.cond-nec .overlay-blood-spot {
+  display: block;
+}
+
+.overlay-blood-spot {
+  display: none;
+  position: absolute;
+  top: 65%;
+  left: 48%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.overlay-blood-spot::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(180,80,60,0.4);
+  border-radius: 50%;
+}
+
+.overlay-blood-spot::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: -5px;
+  width: 4px;
+  height: 4px;
+  background: rgba(160,70,50,0.3);
+  border-radius: 50%;
+}
+
+/* ROP - Eye exam dashed circle */
+.baby-wrapper.cond-rop .overlay-eye-hint {
+  display: block;
+}
+
+.overlay-eye-hint {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 36%;
+  width: 28%;
+  height: 8%;
+  border: 2px dashed rgba(244,162,97,0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  animation: eyeHintPulse 3s ease-in-out infinite;
+}
+
+@keyframes eyeHintPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+/* ==================== PROMPT AREA ==================== */
+.prompt-area {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.prompt-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ==================== RIGHT PANEL ==================== */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vitals-monitor {
+  background: #0a1520;
+  border: 1px solid rgba(93,173,236,0.15);
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.vitals-header {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vitals-header .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  animation: blink 1s ease infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.waveform-container {
+  height: 55px;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(93,173,236,0.08);
+}
+
+.waveform-canvas { width: 100%; height: 100%; }
+
+.vital-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.vital-row:last-child { border-bottom: none; }
+
+.vital-label { font-size: 0.7rem; color: var(--text-dim); }
+
+.vital-value { font-size: 1rem; font-weight: 600; }
+.vital-value.normal { color: var(--accent-green); }
+.vital-value.warning { color: var(--accent-amber); }
+.vital-value.danger { color: var(--accent-coral); }
+.vital-unit { font-size: 0.6rem; color: var(--text-dim); margin-left: 2px; }
+
+/* Diagnosis Panel */
+.diagnosis-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.diagnosis-btn {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.12);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  color: var(--text-secondary);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  touch-action: manipulation;
+}
+
+.diagnosis-btn .diag-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(93,173,236,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.diagnosis-btn:hover {
+  border-color: var(--accent-blue);
+  background: rgba(93,173,236,0.08);
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.diagnosis-btn.correct {
+  border-color: var(--accent-green);
+  background: rgba(107,203,119,0.1);
+  color: var(--accent-green);
+}
+
+.diagnosis-btn.wrong {
+  border-color: var(--accent-coral);
+  background: rgba(255,107,107,0.08);
+  color: var(--accent-coral);
+  opacity: 0.6;
+}
+
+.diagnosis-btn:disabled { cursor: default; pointer-events: none; }
+
+.submit-hint {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* ==================== FEEDBACK OVERLAY ==================== */
+.feedback-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 27, 42, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.feedback-overlay.active { display: flex; }
+
+.feedback-card {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.2);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 550px;
+  width: 100%;
+  animation: feedbackIn 0.4s ease;
+}
+
+@keyframes feedbackIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.feedback-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.feedback-icon.correct {
+  background: rgba(107,203,119,0.15);
+  border: 2px solid var(--accent-green);
+  color: var(--accent-green);
+}
+
+.feedback-icon.wrong {
+  background: rgba(255,107,107,0.15);
+  border: 2px solid var(--accent-coral);
+  color: var(--accent-coral);
+}
+
+.feedback-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+.feedback-title.correct { color: var(--accent-green); }
+.feedback-title.wrong { color: var(--accent-coral); }
+
+.feedback-answer {
+  font-size: 1rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feedback-explanation {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.feedback-explanation strong { color: var(--accent-teal); }
+
+.btn-next {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  color: var(--bg-deep);
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(93,173,236,0.3);
+}
+
+/* ==================== RESULTS SCREEN ==================== */
+#results-screen {
+  display: none;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.results-card {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.2);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: feedbackIn 0.5s ease;
+}
+
+.results-score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.results-score-circle .big-num { font-size: 2.5rem; font-weight: 700; }
+.results-score-circle .of-total { font-size: 0.8rem; }
+
+.results-score-circle.excellent {
+  background: rgba(107,203,119,0.12);
+  border: 3px solid var(--accent-green);
+  color: var(--accent-green);
+}
+
+.results-score-circle.good {
+  background: rgba(244,162,97,0.12);
+  border: 3px solid var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.results-score-circle.needs-work {
+  background: rgba(255,107,107,0.12);
+  border: 3px solid var(--accent-coral);
+  color: var(--accent-coral);
+}
+
+.results-message { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+
+.results-detail {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.results-breakdown { text-align: left; margin-bottom: 2rem; }
+
+.results-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.85rem;
+}
+
+.results-row .r-icon { font-size: 1rem; width: 24px; text-align: center; }
+.results-row .r-name { flex: 1; color: var(--text-secondary); }
+
+.results-row .r-result {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.results-row .r-result.pass { background: rgba(107,203,119,0.15); color: var(--accent-green); }
+.results-row .r-result.fail { background: rgba(255,107,107,0.15); color: var(--accent-coral); }
+
+.btn-restart {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  color: var(--bg-deep);
+  border: none;
+  padding: 0.8rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-restart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(93,173,236,0.3);
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hotspotPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.08); }
+}
+
+/* ==================== TABLET (<=1100px) ==================== */
+@media (max-width: 1100px) {
+  .game-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .incubator-area { order: 1; grid-column: 1 / -1; }
+  .clues-panel    { order: 2; }
+  .right-panel    { order: 3; }
+}
+
+/* ==================== MOBILE (<=768px) ==================== */
+@media (max-width: 768px) {
+  /* --- Title screen --- */
+  .title-main { font-size: 1.8rem; }
+  .title-sub { font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .title-conditions { gap: 0.4rem; margin-bottom: 2rem; }
+  .condition-tag { font-size: 0.7rem; padding: 0.35rem 0.7rem; }
+  .btn-start { padding: 0.8rem 2rem; font-size: 1rem; }
+
+  /* --- Top bar compact --- */
+  .top-bar { padding: 0.6rem 1rem; }
+  .round-label { font-size: 0.75rem; }
+  .progress-bar { width: 100px; }
+  .score-display { font-size: 0.8rem; }
+
+  /* --- Game layout: single column, no gap bloat --- */
+  .game-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 0;
+    padding: 0;
+    min-height: auto;
+  }
+
+  .incubator-area { order: 1; padding: 0.8rem 0.5rem 0; }
+  .right-panel    { order: 2; display: contents; }
+  .clues-panel    { order: 4; padding: 0 0.8rem 0.8rem; }
+
+  /* --- Vitals: horizontal compact strip --- */
+  .vitals-monitor {
+    order: 2;
+    border-radius: 0;
+    padding: 0.5rem 0.8rem;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+  }
+
+  .vitals-header { margin-bottom: 0.4rem; font-size: 0.6rem; }
+
+  .waveform-container { height: 36px; margin: 0.3rem 0; }
+
+  #vitals-rows {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+
+  #vitals-rows .vital-row {
+    flex: 1 1 auto;
+    min-width: 55px;
+    border-bottom: none;
+    padding: 0.2rem 0.4rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  #vitals-rows .vital-label { font-size: 0.55rem; }
+  #vitals-rows .vital-value { font-size: 0.8rem; }
+  #vitals-rows .vital-unit  { font-size: 0.5rem; }
+
+  /* --- Diagnosis: sticky bottom bar --- */
+  .diagnosis-panel {
+    order: 3;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    background: var(--bg-deep);
+    border-top: 1px solid rgba(93,173,236,0.1);
+    padding: 0.6rem 0.8rem;
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    gap: 0.35rem;
+  }
+
+  .diagnosis-panel .panel-header { display: none; }
+
+  .diagnosis-btn {
+    padding: 0.55rem 0.7rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
+  }
+
+  .diagnosis-btn .diag-num {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+
+  .submit-hint { font-size: 0.6rem; padding-top: 0.2rem; }
+
+  /* --- Incubator: wider, shorter --- */
+  .incubator-frame {
+    max-width: 100%;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    min-height: 280px;
+    padding: 0.5rem;
+  }
+
+  .baby-wrapper { width: 65%; max-width: 260px; }
+
+  .incubator-label { font-size: 0.55rem; top: 8px; left: 10px; }
+  .incubator-temp  { font-size: 0.6rem; top: 8px; right: 10px; }
+
+  /* --- Hotspot zones: bigger touch targets --- */
+  .hotspot-zone { min-width: 44px; min-height: 44px; }
+
+  .hotspot-zone::before { inset: -6px; border-width: 2.5px; }
+
+  .zone-monitor {
+    min-width: auto;
+    min-height: auto;
+    width: 22%;
+    height: 10%;
+    top: -4%;
+    right: -2%;
+  }
+
+  .zone-monitor svg { width: 11px; height: 11px; }
+  .zone-monitor span { font-size: 0.5rem; }
+
+  /* --- Prompt text --- */
+  .prompt-area { margin-top: 0.5rem; }
+  .prompt-text { font-size: 0.78rem; }
+
+  /* --- Clues panel: compact scrollable --- */
+  .clues-panel { gap: 0.5rem; }
+
+  .clues-panel .panel-header { font-size: 0.75rem; }
+
+  .clue-instruction {
+    font-size: 0.72rem;
+    padding: 0.5rem 0.6rem;
+    line-height: 1.5;
+  }
+
+  .clue-list {
+    max-height: 200px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .clue-item {
+    padding: 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .clue-item .clue-label { font-size: 0.68rem; }
+
+  /* --- Feedback overlay --- */
+  .feedback-overlay { padding: 1rem; }
+
+  .feedback-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .feedback-icon { width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.8rem; }
+  .feedback-title { font-size: 1.1rem; }
+  .feedback-answer { font-size: 0.9rem; }
+  .feedback-explanation { font-size: 0.78rem; padding: 0.8rem; line-height: 1.7; }
+  .btn-next { width: 100%; padding: 0.75rem; font-size: 0.9rem; }
+
+  /* --- Results screen --- */
+  .results-card { padding: 2rem 1.5rem; }
+  .results-score-circle { width: 90px; height: 90px; }
+  .results-score-circle .big-num { font-size: 2rem; }
+  .results-message { font-size: 1rem; }
+  .results-detail { font-size: 0.8rem; }
+  .results-row { font-size: 0.78rem; padding: 0.5rem 0; }
+  .btn-restart { width: 100%; padding: 0.75rem; }
+}
+
+/* ==================== SMALL MOBILE (<=400px) ==================== */
+@media (max-width: 400px) {
+  .title-main { font-size: 1.5rem; }
+  .baby-wrapper { width: 60%; max-width: 220px; }
+  .incubator-frame { min-height: 240px; }
+  .diagnosis-btn { padding: 0.45rem 0.6rem; font-size: 0.7rem; }
+  .clue-list { max-height: 160px; }
+  .vital-value { font-size: 0.75rem; }
+}
+
+/* ==================== LANDSCAPE MOBILE ==================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .incubator-area { order: 1; grid-row: 1 / 3; }
+  .right-panel    { order: 2; display: contents; }
+  .clues-panel    { order: 3; }
+
+  .vitals-monitor { order: 2; }
+  .diagnosis-panel {
+    order: 4;
+    position: static;
+    padding: 0.5rem;
+  }
+
+  .incubator-frame { min-height: 200px; }
+  .baby-wrapper { width: 50%; }
+  .clue-list { max-height: 120px; }
+  .feedback-card { max-height: 95vh; }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- TITLE SCREEN -->
+<div id="title-screen">
+  <div class="title-badge">NICU Education</div>
+  <h1 class="title-main">
+    早產兒合併症<br><span class="highlight">臨床評估模擬器</span>
+  </h1>
+  <p class="title-sub">
+    觀察保溫箱中早產兒的臨床表現，<br>
+    點擊身體各部位收集線索，做出正確的診斷判斷。
+  </p>
+  <div class="title-conditions">
+    <div class="condition-tag">呼吸窘迫症候群 RDS</div>
+    <div class="condition-tag">開放性動脈導管 PDA</div>
+    <div class="condition-tag">腦室內出血 IVH</div>
+    <div class="condition-tag">壞死性腸炎 NEC</div>
+    <div class="condition-tag">早產兒視網膜病變 ROP</div>
+  </div>
+  <button class="btn-start" onclick="startGame()">開始模擬評估</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen">
+  <div class="top-bar">
+    <div class="round-info">
+      <span class="round-label" id="round-label">CASE 1 / 5</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
+      </div>
+    </div>
+    <div class="score-display">
+      <span class="score-icon">&#9733;</span>
+      <span>得分：</span>
+      <span class="score-val" id="score-val">0</span>
+    </div>
+  </div>
+
+  <div class="game-layout">
+    <!-- Left: Clues -->
+    <div class="clues-panel">
+      <div class="panel-header">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-blue)"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zM6.5 7h2l.5 5h-3l.5-5z"/></svg>
+        臨床觀察紀錄
+      </div>
+      <div class="clue-instruction">
+        點擊寶寶的<strong>頭部、臉部、胸部、腹部、四肢</strong>或右上角<strong>病歷紀錄</strong>來收集臨床線索，再做出診斷。
+      </div>
+      <div class="clue-list" id="clue-list"></div>
+    </div>
+
+    <!-- Center: Incubator with baby image -->
+    <div class="incubator-area">
+      <div class="incubator-frame">
+        <div class="incubator-label">INCUBATOR — NICU BED #<span id="bed-num">3</span></div>
+        <div class="incubator-temp" id="incubator-temp">34.2°C</div>
+
+        <div class="baby-wrapper" id="baby-wrapper">
+          <!-- Base baby PNG -->
+          <img class="baby-base" src="https://filedn.eu/lnMPQu6qnE709ro96qxK1tR/%E6%97%A9%E7%94%A2%E5%85%92.png" alt="早產兒">
+
+          <!-- Symptom overlays (shown/hidden per condition via CSS class) -->
+          <div class="overlay-chest-retract"></div>
+          <div class="overlay-nasal-flare"></div>
+          <div class="overlay-grunt-waves">
+            <div class="grunt-wave"></div>
+            <div class="grunt-wave"></div>
+            <div class="grunt-wave"></div>
+          </div>
+          <div class="overlay-heart-pulse"></div>
+          <div class="overlay-bounding-pulse" style="position:absolute;top:44%;left:2%;width:96%;height:10%;">
+            <div class="bounding-dot left-wrist"></div>
+            <div class="bounding-dot right-wrist"></div>
+          </div>
+          <div class="overlay-murmur">
+            <div class="murmur-line"></div>
+            <div class="murmur-line"></div>
+            <div class="murmur-line"></div>
+          </div>
+          <div class="overlay-fontanelle"></div>
+          <div class="overlay-abdomen-distend"></div>
+          <div class="overlay-blood-spot"></div>
+          <div class="overlay-eye-hint"></div>
+
+          <!-- Clickable hotspot zones -->
+          <div class="hotspot-zone zone-head" data-zone="head" title="頭部"></div>
+          <div class="hotspot-zone zone-face" data-zone="face" title="臉部"></div>
+          <div class="hotspot-zone zone-chest" data-zone="chest" title="胸部"></div>
+          <div class="hotspot-zone zone-abdomen" data-zone="abdomen" title="腹部"></div>
+          <div class="hotspot-zone zone-limbs" data-zone="limbs" title="四肢"></div>
+          <div class="hotspot-zone zone-monitor" data-zone="monitor" title="病歷/聽診">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="var(--accent-blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.7;">
+              <rect x="4" y="2" width="12" height="16" rx="2"/>
+              <path d="M7 1v3M13 1v3M8 9h4M8 12h3"/>
+            </svg>
+            <span style="font-size:0.58rem;color:var(--text-dim);letter-spacing:0.5px;">病歷</span>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-area">
+        <p class="prompt-text" id="prompt-text">點擊寶寶的各個部位進行臨床觀察</p>
+      </div>
+    </div>
+
+    <!-- Right: Vitals & Diagnosis -->
+    <div class="right-panel">
+      <div class="vitals-monitor">
+        <div class="vitals-header">
+          <span class="dot"></span>
+          PATIENT MONITOR
+        </div>
+        <div class="waveform-container">
+          <canvas class="waveform-canvas" id="waveform-canvas"></canvas>
+        </div>
+        <div id="vitals-rows"></div>
+      </div>
+
+      <div class="diagnosis-panel">
+        <div class="panel-header">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-blue)"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
+          選擇診斷
+        </div>
+        <div id="diagnosis-buttons"></div>
+        <div class="submit-hint" id="submit-hint">收集線索後選擇你的診斷</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-card">
+    <div class="feedback-icon" id="feedback-icon"></div>
+    <div class="feedback-title" id="feedback-title"></div>
+    <div class="feedback-answer" id="feedback-answer"></div>
+    <div class="feedback-explanation" id="feedback-explanation"></div>
+    <button class="btn-next" id="btn-next" onclick="nextRound()">下一題</button>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-card">
+    <h2 style="font-size:1rem;color:var(--text-dim);margin-bottom:1.5rem;letter-spacing:1px;">評估結果</h2>
+    <div class="results-score-circle" id="results-circle">
+      <span class="big-num" id="results-big"></span>
+      <span class="of-total">/ 5</span>
+    </div>
+    <div class="results-message" id="results-message"></div>
+    <div class="results-detail" id="results-detail"></div>
+    <div class="results-breakdown" id="results-breakdown"></div>
+    <button class="btn-restart" onclick="restartGame()">再次挑戰</button>
+  </div>
+</div>
+
+<script>
+// ==================== GAME DATA ====================
+var CONDITIONS = [
+  {
+    id: 'rds',
+    name: '呼吸窘迫症候群 (RDS)',
+    nameShort: 'RDS',
+    vitals: {
+      hr:   { value: '168', status: 'warning', label: 'HR' },
+      spo2: { value: '83',  status: 'danger',  label: 'SpO2' },
+      rr:   { value: '74',  status: 'danger',  label: 'RR' },
+      bp:   { value: '38/22', status: 'warning', label: 'BP' },
+      temp: { value: '36.5', status: 'normal',  label: 'TEMP' }
+    },
+    waveformStyle: 'tachypneic',
+    hotspots: {
+      chest:   { label: '胸部觀察', text: '吸氣時可見胸壁明顯凹陷，肋間及胸骨下方出現凹陷現象，呼吸似乎相當費力。' },
+      face:    { label: '面部觀察', text: '鼻孔隨著每次呼吸有些微擴張的跡象。嘴唇顏色似乎偏暗，不太紅潤。' },
+      head:    { label: '頭部觸診', text: '前囟門平坦柔軟，觸診無異常發現。' },
+      abdomen: { label: '腹部觀察', text: '腹部外觀柔軟，無明顯膨脹。腸音正常。' },
+      limbs:   { label: '四肢觀察', text: '四肢末梢顏色略顯暗淡。肌張力尚可，有自發性活動。' },
+      monitor: { label: '聽診 / 監測', text: '呼氣時可聽到微弱的「嗯…嗯…」聲響。心音規則，無明顯雜音。呼吸頻率偏快。' }
+    },
+    explanation: '此病例表現為典型的<strong>呼吸窘迫症候群 (RDS)</strong> 特徵：<br><br>• <strong>三凹徵象</strong>：吸氣時胸骨上凹、肋間凹、劍突下凹<br>• <strong>鼻翼搧動</strong>：吸氣時鼻孔擴張<br>• <strong>呻吟聲</strong>：呼氣時發出聲響，試圖維持肺泡擴張<br>• <strong>發紺</strong>：唇色與末梢偏暗，SpO2 偏低<br><br>RDS 因肺泡表面張力素不足所致，常見於早產兒出生後數小時內。'
+  },
+  {
+    id: 'pda',
+    name: '開放性動脈導管 (PDA)',
+    nameShort: 'PDA',
+    vitals: {
+      hr:   { value: '162', status: 'warning', label: 'HR' },
+      spo2: { value: '91',  status: 'warning', label: 'SpO2' },
+      rr:   { value: '58',  status: 'warning', label: 'RR' },
+      bp:   { value: '62/25', status: 'danger', label: 'BP' },
+      temp: { value: '36.8', status: 'normal',  label: 'TEMP' }
+    },
+    waveformStyle: 'bounding',
+    hotspots: {
+      chest:   { label: '胸部觀察', text: '胸壁可見搏動比預期明顯。未見顯著三凹徵象，但呼吸略顯急促。' },
+      face:    { label: '面部觀察', text: '面色尚可，無明顯發紺。偶有輕微呼吸費力的表現。' },
+      head:    { label: '頭部觸診', text: '前囟門平坦柔軟，無隆起。頭部外觀正常。' },
+      abdomen: { label: '腹部觀察', text: '腹部柔軟，但注意到腹主動脈搏動似乎較為明顯。餵食狀況尚可。' },
+      limbs:   { label: '四肢觀察', text: '周邊脈搏跳動有力，感覺較一般早產兒明顯。膚色正常，溫暖。' },
+      monitor: { label: '聽診 / 監測', text: '左胸骨上緣可聽到連續性雜音，像是持續性的機械運轉聲。脈壓差似乎偏大（收縮壓與舒張壓差距大）。' }
+    },
+    explanation: '此病例表現為<strong>開放性動脈導管 (PDA)</strong> 的特徵：<br><br>• <strong>連續性心雜音</strong>：左胸骨上緣聽到似機器運轉的雜音<br>• <strong>脈壓差增大</strong>：BP 62/25，收縮壓與舒張壓差距明顯<br>• <strong>周邊脈搏有力（跳脈）</strong>：動脈導管分流導致<br>• <strong>胸壁搏動明顯</strong>：心臟負荷增加<br><br>PDA 是因出生後動脈導管未關閉，血液從主動脈經導管流向肺動脈所致。'
+  },
+  {
+    id: 'ivh',
+    name: '腦室內出血 (IVH)',
+    nameShort: 'IVH',
+    vitals: {
+      hr:   { value: '138', status: 'warning', label: 'HR' },
+      spo2: { value: '88',  status: 'warning', label: 'SpO2' },
+      rr:   { value: '42',  status: 'normal',  label: 'RR' },
+      bp:   { value: '30/18', status: 'danger', label: 'BP' },
+      temp: { value: '36.0', status: 'warning', label: 'TEMP' }
+    },
+    waveformStyle: 'irregular',
+    hotspots: {
+      head:    { label: '頭部觸診', text: '前囟門觸摸起來似乎有些飽滿張力，略有隆起的感覺。頭圍需要密切追蹤。' },
+      face:    { label: '面部觀察', text: '寶寶表情呆滯，膚色蒼白。眼神似乎缺乏焦點。' },
+      chest:   { label: '胸部觀察', text: '呼吸型態相對平穩，但偶有呼吸暫停的現象出現。心音規則。' },
+      abdomen: { label: '腹部觀察', text: '腹部柔軟平坦，無異常發現。' },
+      limbs:   { label: '四肢觀察', text: '肌張力明顯下降，四肢軟趴趴地攤在床面上。偶爾出現短暫不自主的抽動。' },
+      monitor: { label: '聽診 / 監測', text: '血壓偏低。近期抽血報告顯示血色素有下降趨勢。整體活力突然變差。' }
+    },
+    explanation: '此病例表現為<strong>腦室內出血 (IVH)</strong> 的特徵：<br><br>• <strong>前囟門隆起</strong>：腦壓升高的徵兆<br>• <strong>肌張力消失</strong>：變得軟趴趴<br>• <strong>抽搐表現</strong>：短暫不自主抽動<br>• <strong>蒼白 / 貧血</strong>：血色素下降<br>• <strong>血壓偏低</strong>：可能出現休克表現<br><br>IVH 常發生在極早產兒出生後最初幾天，源於腦室周圍脆弱的血管破裂出血。'
+  },
+  {
+    id: 'nec',
+    name: '壞死性腸炎 (NEC)',
+    nameShort: 'NEC',
+    vitals: {
+      hr:   { value: '175', status: 'danger',  label: 'HR' },
+      spo2: { value: '90',  status: 'warning', label: 'SpO2' },
+      rr:   { value: '65',  status: 'warning', label: 'RR' },
+      bp:   { value: '35/20', status: 'danger', label: 'BP' },
+      temp: { value: '35.8', status: 'danger',  label: 'TEMP' }
+    },
+    waveformStyle: 'tachycardic',
+    hotspots: {
+      abdomen: { label: '腹部觀察', text: '腹部看起來鼓脹發亮，輕觸即有張力感。腹壁皮膚顏色似乎不太均勻，有些區域微微發紅。' },
+      face:    { label: '面部觀察', text: '寶寶表情痛苦，顯得嗜睡且活力不佳。膚色偏灰。' },
+      head:    { label: '頭部觸診', text: '前囟門平坦，無異常隆起。' },
+      chest:   { label: '胸部觀察', text: '呼吸略為急促，偶有短暫的呼吸暫停現象。心音規則但偏快。' },
+      limbs:   { label: '四肢觀察', text: '四肢活動減少，整體顯得嗜睡。末梢循環略差。' },
+      monitor: { label: '餵食 / 監測紀錄', text: '胃管反抽液顏色偏綠（帶膽汁），量比前幾次增多。護理紀錄記載最近一次大便帶有血絲。體溫不穩定。' }
+    },
+    explanation: '此病例表現為<strong>壞死性腸炎 (NEC)</strong> 的特徵：<br><br>• <strong>腹脹</strong>：腹部明顯鼓脹、發亮<br>• <strong>餵食不耐</strong>：胃管反抽物增多且帶有膽汁（綠色）<br>• <strong>血便</strong>：大便帶有血絲<br>• <strong>活力下降</strong>：嗜睡、體溫不穩<br>• <strong>生命徵象不穩</strong>：心跳偏快、體溫偏低<br><br>NEC 是早產兒嚴重的腸道併發症，腸壁缺血壞死可導致穿孔及敗血症。'
+  },
+  {
+    id: 'rop',
+    name: '早產兒視網膜病變 (ROP)',
+    nameShort: 'ROP',
+    vitals: {
+      hr:   { value: '148', status: 'normal', label: 'HR' },
+      spo2: { value: '95',  status: 'normal', label: 'SpO2' },
+      rr:   { value: '48',  status: 'normal', label: 'RR' },
+      bp:   { value: '45/28', status: 'normal', label: 'BP' },
+      temp: { value: '36.7', status: 'normal', label: 'TEMP' }
+    },
+    waveformStyle: 'normal',
+    hotspots: {
+      face:    { label: '眼部觀察', text: '寶寶的眼睛外觀無明顯異常，但考量其胎齡與過去的高濃度氧氣使用紀錄，需安排眼科檢查。' },
+      head:    { label: '頭部觸診', text: '前囟門平坦。頭部發育正常。' },
+      chest:   { label: '胸部觀察', text: '呼吸平穩規則，目前已脫離呼吸器但仍有使用氧氣的病史紀錄。' },
+      abdomen: { label: '腹部觀察', text: '腹部柔軟，餵食良好，無異常。' },
+      limbs:   { label: '四肢觀察', text: '四肢活動正常，肌張力適當。整體活力良好。' },
+      monitor: { label: '病歷 / 檢查紀錄', text: '病歷記載：出生週數28週，曾長期使用高濃度氧氣。眼科會診紀錄：間接眼底鏡檢查發現視網膜周邊血管發育不完全，有異常新生血管增生線。' }
+    },
+    explanation: '此病例為<strong>早產兒視網膜病變 (ROP)</strong>：<br><br>• <strong>生命徵象穩定</strong>：目前無急性症狀<br>• <strong>高風險因子</strong>：極早產（28週）、長期高濃度氧氣使用<br>• <strong>眼底檢查異常</strong>：視網膜血管發育不完全、異常新生血管增生<br>• <strong>外觀無明顯異常</strong>：需靠眼科專科檢查才能診斷<br><br>ROP 因早產兒視網膜血管尚未成熟，受氧氣等因素刺激導致異常增生，嚴重可致失明。篩檢是關鍵。'
+  }
+];
+
+var DIAGNOSIS_OPTIONS = [
+  { id: 'rds', label: '呼吸窘迫症候群 (RDS)' },
+  { id: 'pda', label: '開放性動脈導管 (PDA)' },
+  { id: 'ivh', label: '腦室內出血 (IVH)' },
+  { id: 'nec', label: '壞死性腸炎 (NEC)' },
+  { id: 'rop', label: '早產兒視網膜病變 (ROP)' }
+];
+
+// ==================== GAME STATE ====================
+var gameState = {
+  currentRound: 0,
+  score: 0,
+  order: [],
+  discoveredClues: {},
+  results: [],
+  answered: false
+};
+
+// ==================== ECG WAVEFORM ====================
+var waveformCtx, waveformAnim, waveformOffset = 0;
+
+function initWaveform() {
+  var canvas = document.getElementById('waveform-canvas');
+  if (!canvas) return;
+  var rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width * 2;
+  canvas.height = rect.height * 2;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  waveformCtx = canvas.getContext('2d');
+  waveformCtx.scale(2, 2);
+}
+
+// Generate one PQRST beat as y-offsets array
+function generateBeat(cycleLen, amplitude, style) {
+  var pts = [];
+  var a = amplitude;
+
+  // Segment fractions
+  var pre = 0.08, p = 0.08, pr = 0.06, qrs = 0.10, st = 0.10, t = 0.12, post = 0.46;
+
+  function addFlat(s, e, yOff) {
+    var x0 = Math.round(s * cycleLen), x1 = Math.round(e * cycleLen);
+    for (var x = x0; x < x1; x++) pts.push(yOff || 0);
+  }
+
+  function addBump(s, e, h) {
+    var x0 = Math.round(s * cycleLen), x1 = Math.round(e * cycleLen), len = x1 - x0;
+    for (var i = 0; i < len; i++) pts.push(-h * Math.sin(Math.PI * i / len));
+  }
+
+  var pos = 0;
+
+  // Pre-baseline
+  addFlat(pos, pos + pre);
+  pos += pre;
+
+  // P wave
+  var pH = a * (style === 'irregular' ? 0.08 : 0.12);
+  addBump(pos, pos + p, pH);
+  pos += p;
+
+  // PR segment
+  addFlat(pos, pos + pr);
+  pos += pr;
+
+  // QRS complex
+  var qS = Math.round(pos * cycleLen), qE = Math.round((pos + qrs) * cycleLen), qLen = qE - qS;
+  for (var i = 0; i < qLen; i++) {
+    var tt = i / qLen, y = 0;
+    if (tt < 0.2) {
+      y = (a * 0.15) * Math.sin(Math.PI * tt / 0.2);
+    } else if (tt < 0.5) {
+      var rH = a * (style === 'bounding' ? 1.15 : 0.9);
+      y = -rH * Math.sin(Math.PI * (tt - 0.2) / 0.3);
+    } else if (tt < 0.75) {
+      y = (a * 0.25) * Math.sin(Math.PI * (tt - 0.5) / 0.25);
+    }
+    pts.push(y);
+  }
+  pos += qrs;
+
+  // ST segment
+  var stOff = style === 'bounding' ? -a * 0.05 : 0;
+  addFlat(pos, pos + st, stOff);
+  pos += st;
+
+  // T wave
+  var tH = a * (style === 'bounding' ? 0.28 : 0.2);
+  addBump(pos, pos + t, tH);
+  pos += t;
+
+  // Post-baseline
+  addFlat(pos, 1.0);
+
+  return pts;
+}
+
+function drawWaveform(style) {
+  if (!waveformCtx) return;
+  var canvas = document.getElementById('waveform-canvas');
+  var w = canvas.width / 2, h = canvas.height / 2, mid = h / 2;
+
+  // Cycle length (pixels per beat)
+  var cycleLen;
+  switch (style) {
+    case 'tachypneic':  cycleLen = 55; break;
+    case 'bounding':    cycleLen = 60; break;
+    case 'irregular':   cycleLen = 72; break;
+    case 'tachycardic': cycleLen = 48; break;
+    default:            cycleLen = 78; break;
+  }
+
+  var beat = generateBeat(cycleLen, h * 0.42, style);
+
+  waveformCtx.clearRect(0, 0, w, h);
+
+  // Draw ECG line
+  waveformCtx.strokeStyle = '#5dadec';
+  waveformCtx.lineWidth = 1.5;
+  waveformCtx.beginPath();
+
+  for (var x = 0; x < w; x++) {
+    var shifted = x + waveformOffset;
+    var idx;
+
+    if (style === 'irregular') {
+      // Add jitter per cycle for irregular rhythm
+      var cycleNum = Math.floor(shifted / cycleLen);
+      var jitter = Math.sin(cycleNum * 7.31) * 8;
+      idx = Math.floor(((shifted + jitter) % cycleLen + cycleLen) % cycleLen);
+    } else {
+      idx = Math.floor(((shifted % cycleLen) + cycleLen) % cycleLen);
+    }
+
+    var y = mid + (idx < beat.length ? beat[idx] : 0);
+
+    if (x === 0) waveformCtx.moveTo(x, y);
+    else waveformCtx.lineTo(x, y);
+  }
+
+  waveformCtx.stroke();
+
+  // Glow
+  waveformCtx.strokeStyle = 'rgba(93,173,236,0.25)';
+  waveformCtx.lineWidth = 4;
+  waveformCtx.stroke();
+
+  waveformOffset += 1.2;
+  waveformAnim = requestAnimationFrame(function() { drawWaveform(style); });
+}
+
+// ==================== GAME LOGIC ====================
+function shuffleArray(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function startGame() {
+  gameState = {
+    currentRound: 0,
+    score: 0,
+    order: shuffleArray([0, 1, 2, 3, 4]),
+    discoveredClues: {},
+    results: [],
+    answered: false
+  };
+
+  document.getElementById('title-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
+  document.getElementById('results-screen').style.display = 'none';
+
+  initWaveform();
+  loadRound();
+}
+
+function loadRound() {
+  var round = gameState.currentRound;
+  var condition = CONDITIONS[gameState.order[round]];
+
+  gameState.discoveredClues = {};
+  gameState.answered = false;
+
+  // Update UI
+  document.getElementById('round-label').textContent = 'CASE ' + (round + 1) + ' / 5';
+  document.getElementById('progress-fill').style.width = ((round + 1) * 20) + '%';
+  document.getElementById('score-val').textContent = gameState.score;
+  document.getElementById('bed-num').textContent = Math.floor(Math.random() * 12) + 1;
+  document.getElementById('incubator-temp').textContent = (33 + Math.random() * 2).toFixed(1) + '\u00B0C';
+  document.getElementById('clue-list').innerHTML = '';
+  document.getElementById('prompt-text').textContent = '點擊寶寶的各個部位進行臨床觀察';
+  document.getElementById('submit-hint').textContent = '收集線索後選擇你的診斷';
+
+  // Set condition class on baby wrapper (controls overlays + filters)
+  var wrapper = document.getElementById('baby-wrapper');
+  wrapper.className = 'baby-wrapper cond-' + condition.id;
+
+  // Reset hotspot discovered state
+  var zones = document.querySelectorAll('.hotspot-zone');
+  for (var i = 0; i < zones.length; i++) {
+    zones[i].classList.remove('discovered');
+  }
+
+  // Vitals
+  loadVitals(condition.vitals);
+
+  // Waveform
+  if (waveformAnim) cancelAnimationFrame(waveformAnim);
+  waveformOffset = 0;
+  drawWaveform(condition.waveformStyle);
+
+  // Diagnosis buttons
+  loadDiagnosisButtons();
+}
+
+function loadVitals(vitals) {
+  var container = document.getElementById('vitals-rows');
+  var units = { 'HR': 'bpm', 'SpO2': '%', 'RR': '/min', 'BP': 'mmHg', 'TEMP': '\u00B0C' };
+  var html = '';
+  var keys = Object.keys(vitals);
+  for (var i = 0; i < keys.length; i++) {
+    var v = vitals[keys[i]];
+    html += '<div class="vital-row">' +
+      '<span class="vital-label">' + v.label + '</span>' +
+      '<span class="vital-value ' + v.status + '">' + v.value +
+      '<span class="vital-unit">' + (units[v.label] || '') + '</span></span></div>';
+  }
+  container.innerHTML = html;
+}
+
+function discoverClue(zone) {
+  if (gameState.discoveredClues[zone]) return;
+  gameState.discoveredClues[zone] = true;
+
+  var condition = CONDITIONS[gameState.order[gameState.currentRound]];
+  var hotspot = condition.hotspots[zone];
+  if (!hotspot) return;
+
+  // Mark zone as discovered
+  var zoneEl = document.querySelector('.hotspot-zone[data-zone="' + zone + '"]');
+  if (zoneEl) zoneEl.classList.add('discovered');
+
+  // Add clue to list
+  var clueList = document.getElementById('clue-list');
+  var clueEl = document.createElement('div');
+  clueEl.className = 'clue-item';
+  var clueIcon = '<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="vertical-align:-1px;margin-right:4px;"><rect x="3" y="1.5" width="10" height="13" rx="1.5"/><path d="M5.5 1v2.5M10.5 1v2.5M6 7.5h4M6 10h3"/></svg>';
+  clueEl.innerHTML = '<div class="clue-label">' + clueIcon + hotspot.label + '</div>' +
+    '<div class="clue-text">' + hotspot.text + '</div>';
+  clueList.appendChild(clueEl);
+  clueList.scrollTop = clueList.scrollHeight;
+
+  // Update prompt
+  var count = Object.keys(gameState.discoveredClues).length;
+  var remaining = 6 - count;
+  if (remaining > 0) {
+    document.getElementById('prompt-text').textContent =
+      '已發現 ' + count + ' 項線索，還有 ' + remaining + ' 個區域可探索';
+  } else {
+    document.getElementById('prompt-text').textContent = '所有區域已探索完畢，請做出診斷！';
+  }
+}
+
+function loadDiagnosisButtons() {
+  var container = document.getElementById('diagnosis-buttons');
+  var html = '';
+  for (var i = 0; i < DIAGNOSIS_OPTIONS.length; i++) {
+    var opt = DIAGNOSIS_OPTIONS[i];
+    html += '<button class="diagnosis-btn" data-id="' + opt.id + '" onclick="selectDiagnosis(\'' + opt.id + '\')">' +
+      '<span class="diag-num">' + (i + 1) + '</span>' + opt.label + '</button>';
+  }
+  container.innerHTML = html;
+}
+
+function selectDiagnosis(selectedId) {
+  if (gameState.answered) return;
+  gameState.answered = true;
+
+  var condition = CONDITIONS[gameState.order[gameState.currentRound]];
+  var isCorrect = selectedId === condition.id;
+  if (isCorrect) gameState.score++;
+
+  gameState.results.push({
+    condition: condition,
+    selectedId: selectedId,
+    correct: isCorrect
+  });
+
+  // Highlight buttons
+  var btns = document.querySelectorAll('.diagnosis-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].disabled = true;
+    if (btns[i].getAttribute('data-id') === condition.id) btns[i].classList.add('correct');
+    else if (btns[i].getAttribute('data-id') === selectedId && !isCorrect) btns[i].classList.add('wrong');
+  }
+
+  setTimeout(function() { showFeedback(isCorrect, condition, selectedId); }, 600);
+}
+
+function showFeedback(isCorrect, condition, selectedId) {
+  var overlay = document.getElementById('feedback-overlay');
+  var icon = document.getElementById('feedback-icon');
+  var title = document.getElementById('feedback-title');
+  var answer = document.getElementById('feedback-answer');
+  var explanation = document.getElementById('feedback-explanation');
+  var btnNext = document.getElementById('btn-next');
+
+  icon.className = 'feedback-icon ' + (isCorrect ? 'correct' : 'wrong');
+  icon.textContent = isCorrect ? '\u2713' : '\u2717';
+
+  title.className = 'feedback-title ' + (isCorrect ? 'correct' : 'wrong');
+  title.textContent = isCorrect ? '診斷正確！' : '診斷有誤';
+
+  answer.textContent = isCorrect ? condition.name : '正確答案：' + condition.name;
+
+  explanation.innerHTML = condition.explanation;
+
+  btnNext.textContent = gameState.currentRound < 4 ? '下一題' : '查看結果';
+
+  overlay.classList.add('active');
+}
+
+function nextRound() {
+  document.getElementById('feedback-overlay').classList.remove('active');
+  gameState.currentRound++;
+  if (gameState.currentRound >= 5) showResults();
+  else loadRound();
+}
+
+function showResults() {
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'flex';
+  if (waveformAnim) cancelAnimationFrame(waveformAnim);
+
+  var score = gameState.score;
+  var circle = document.getElementById('results-circle');
+  document.getElementById('results-big').textContent = score;
+
+  if (score >= 4) {
+    circle.className = 'results-score-circle excellent';
+    document.getElementById('results-message').textContent = '表現優異！';
+    document.getElementById('results-message').style.color = 'var(--accent-green)';
+    document.getElementById('results-detail').textContent = '你對早產兒合併症的臨床辨識能力很強，繼續保持！';
+  } else if (score >= 3) {
+    circle.className = 'results-score-circle good';
+    document.getElementById('results-message').textContent = '表現不錯！';
+    document.getElementById('results-message').style.color = 'var(--accent-amber)';
+    document.getElementById('results-detail').textContent = '大部分合併症都能正確判斷，建議再複習未答對的部分。';
+  } else {
+    circle.className = 'results-score-circle needs-work';
+    document.getElementById('results-message').textContent = '需要加油';
+    document.getElementById('results-message').style.color = 'var(--accent-coral)';
+    document.getElementById('results-detail').textContent = '建議重新複習各合併症的臨床特徵，多觀察、多練習。';
+  }
+
+  var html = '';
+  for (var i = 0; i < gameState.results.length; i++) {
+    var r = gameState.results[i];
+    html += '<div class="results-row">' +
+      '<span class="r-icon">' + (r.correct ? '\u2713' : '\u2717') + '</span>' +
+      '<span class="r-name">' + r.condition.name + '</span>' +
+      '<span class="r-result ' + (r.correct ? 'pass' : 'fail') + '">' +
+      (r.correct ? 'PASS' : 'FAIL') + '</span></div>';
+  }
+  document.getElementById('results-breakdown').innerHTML = html;
+}
+
+function restartGame() {
+  document.getElementById('results-screen').style.display = 'none';
+  startGame();
+}
+
+// ==================== HOTSPOT CLICK BINDING ====================
+document.addEventListener('DOMContentLoaded', function() {
+  var zones = document.querySelectorAll('.hotspot-zone');
+  for (var i = 0; i < zones.length; i++) {
+    zones[i].addEventListener('click', function() {
+      var zone = this.getAttribute('data-zone');
+      if (zone && !gameState.answered) {
+        discoverClue(zone);
+      }
+    });
+  }
+});
+
+// Keyboard shortcuts (1-5 for diagnosis)
+document.addEventListener('keydown', function(e) {
+  if (gameState.answered) return;
+  var num = parseInt(e.key);
+  if (num >= 1 && num <= 5) {
+    selectDiagnosis(DIAGNOSIS_OPTIONS[num - 1].id);
+  }
+});
+
+// Re-init waveform on orientation/resize change
+var resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+    if (document.getElementById('game-screen').style.display !== 'none') {
+      initWaveform();
+      var cond = CONDITIONS[gameState.order[gameState.currentRound]];
+      if (cond && waveformCtx) {
+        if (waveformAnim) cancelAnimationFrame(waveformAnim);
+        drawWaveform(cond.waveformStyle);
+      }
+    }
+  }, 250);
+});
+</script>
+</body>
+</html>
