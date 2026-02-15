@@ -510,17 +510,16 @@ body::before {
   touch-action: manipulation;
   -webkit-touch-callout: none;
   user-select: none;
-  min-width: 44px;
-  min-height: 44px;
 }
 
 .hotspot-zone::before {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: -2px;
   border-radius: 50%;
   border: 2px solid rgba(93,173,236,0.35);
   animation: hotspotPulse 2s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .hotspot-zone:hover::before { border-color: rgba(93,173,236,0.7); }
@@ -533,11 +532,11 @@ body::before {
 
 .hotspot-zone.discovered { background: rgba(78,205,196,0.08); }
 
-.zone-head    { width: 40%; height: 14%; top: 0%;  left: 28%; border-radius: 40%; }
-.zone-face    { width: 32%; height: 16%; top: 16%; left: 34%; border-radius: 40%; }
-.zone-chest   { width: 30%; height: 12%; top: 42%; left: 35%; border-radius: 40%; }
-.zone-abdomen { width: 26%; height: 12%; top: 54%; left: 37%; border-radius: 40%; }
-.zone-limbs   { width: 92%; height: 22%; top: 68%; left: 4%;  border-radius: 30%; }
+.zone-head    { width: 40%; height: 13%; top: 0%;  left: 28%; border-radius: 40%; }
+.zone-face    { width: 32%; height: 14%; top: 15%; left: 34%; border-radius: 40%; }
+.zone-chest   { width: 30%; height: 10%; top: 42%; left: 35%; border-radius: 40%; }
+.zone-abdomen { width: 26%; height: 10%; top: 55%; left: 37%; border-radius: 40%; z-index: 11; }
+.zone-limbs   { width: 92%; height: 18%; top: 70%; left: 4%;  border-radius: 30%; }
 .zone-monitor { width: 26%; height: 12%; top: -2%; right: -4%; left: auto; border-radius: 8px; background: rgba(93,173,236,0.06); border: 1px solid rgba(93,173,236,0.18); display: flex; align-items: center; justify-content: center; gap: 4px; min-width: auto; min-height: auto; }
 .zone-monitor::before { border-radius: 8px; }
 .zone-monitor svg { width: 11px; height: 11px; }
@@ -1017,7 +1016,6 @@ body::before {
   z-index: 70;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   box-shadow: 0 -8px 30px rgba(0,0,0,0.4);
 }
 
@@ -1073,10 +1071,9 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  max-height: calc(55vh - 110px);
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   padding: 0.4rem 0.8rem 0.8rem;
 }
