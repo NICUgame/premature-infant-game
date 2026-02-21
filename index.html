@@ -28,7 +28,6 @@ body {
   background: var(--bg-deep);
   color: var(--text-primary);
   min-height: 100vh;
-  min-height: 100dvh;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
@@ -53,27 +52,26 @@ body::before {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  min-height: 100dvh;
   position: relative;
   z-index: 1;
-  padding: 1.5rem 1rem;
+  padding: 2rem;
 }
 
 .title-badge {
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
   color: var(--bg-deep);
-  padding: 0.3rem 1rem;
+  padding: 0.4rem 1.2rem;
   border-radius: 20px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   animation: fadeSlideDown 0.8s ease;
 }
 
 .title-main {
-  font-size: 1.8rem;
+  font-size: 3rem;
   font-weight: 900;
   text-align: center;
   line-height: 1.3;
@@ -89,41 +87,47 @@ body::before {
 }
 
 .title-sub {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
   text-align: center;
   max-width: 500px;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
   animation: fadeSlideDown 0.8s ease 0.2s both;
 }
 
 .title-conditions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: center;
   max-width: 600px;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   animation: fadeSlideDown 0.8s ease 0.3s both;
 }
 
 .condition-tag {
   background: var(--bg-panel);
   border: 1px solid rgba(93,173,236,0.2);
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   transition: all 0.3s;
+}
+
+.condition-tag:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  transform: translateY(-2px);
 }
 
 .btn-start {
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
   color: var(--bg-deep);
   border: none;
-  padding: 0.9rem 2.5rem;
-  font-size: 1rem;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
   font-weight: 700;
   font-family: 'Noto Sans TC', sans-serif;
   border-radius: 12px;
@@ -137,179 +141,20 @@ body::before {
   box-shadow: 0 10px 30px rgba(93,173,236,0.3);
 }
 
-.copyright-footer {
-  position: absolute;
-  bottom: 1rem;
-  right: 1.2rem;
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 0.3px;
-  animation: fadeSlideDown 0.8s ease 0.5s both;
-}
-
-.copyright-footer a {
-  color: var(--text-dim);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.copyright-footer a:hover { color: var(--accent-blue); }
-
-/* ==================== TUTORIAL OVERLAY ==================== */
-.tutorial-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(13, 27, 42, 0.92);
-  backdrop-filter: blur(8px);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.tutorial-overlay.active { display: flex; }
-
-.tutorial-card {
-  background: var(--bg-panel);
-  border: 1px solid rgba(93,173,236,0.2);
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  max-width: 380px;
-  width: 100%;
-  text-align: center;
-  animation: feedbackIn 0.4s ease;
-}
-
-.tutorial-card h2 {
-  font-size: 1.1rem;
-  color: var(--accent-blue);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
-
-.tutorial-steps-wrapper {
-  position: relative;
-  min-height: 160px;
-  margin-bottom: 1.2rem;
-}
-
-.tutorial-step {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-  animation: fadeSlideDown 0.4s ease;
-}
-
-.tutorial-step.active { display: flex; }
-
-.tutorial-step-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(93,173,236,0.1);
-  border: 2px solid rgba(93,173,236,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-}
-
-.tutorial-step h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.tutorial-step p {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 300px;
-}
-
-.tutorial-step p strong { color: var(--accent-teal); }
-
-.tutorial-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 1.2rem;
-}
-
-.tutorial-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--text-dim);
-  transition: all 0.3s;
-}
-
-.tutorial-dots .dot.active {
-  background: var(--accent-blue);
-  transform: scale(1.3);
-}
-
-.tutorial-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.tutorial-skip {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  cursor: pointer;
-}
-
-.tutorial-skip input {
-  accent-color: var(--accent-blue);
-}
-
-.tutorial-btn {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
-  color: var(--bg-deep);
-  border: none;
-  padding: 0.7rem 2rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  font-family: 'Noto Sans TC', sans-serif;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-width: 140px;
-}
-
-.tutorial-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(93,173,236,0.3);
-}
-
 /* ==================== GAME SCREEN ==================== */
 #game-screen {
   display: none;
-  height: 100vh;
-  height: 100dvh;
-  flex-direction: column;
+  min-height: 100vh;
   position: relative;
   z-index: 1;
-  overflow: hidden;
 }
 
-/* Top Bar */
 .top-bar {
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.3rem 0.8rem;
-  height: 40px;
-  background: rgba(27, 45, 68, 0.9);
+  padding: 1rem 2rem;
+  background: rgba(27, 45, 68, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(93,173,236,0.1);
 }
@@ -317,141 +162,143 @@ body::before {
 .round-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .round-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: var(--accent-blue);
   font-weight: 600;
 }
 
 .progress-bar {
-  width: 60px;
-  height: 4px;
+  width: 200px;
+  height: 6px;
   background: var(--bg-card);
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
-  border-radius: 2px;
+  border-radius: 3px;
   transition: width 0.5s ease;
-}
-
-/* Timer */
-.timer-container {
-  position: relative;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-}
-
-.timer-svg {
-  width: 36px;
-  height: 36px;
-  transform: rotate(-90deg);
-}
-
-.timer-track {
-  fill: none;
-  stroke: rgba(93,173,236,0.12);
-  stroke-width: 3;
-}
-
-.timer-progress {
-  fill: none;
-  stroke: var(--accent-teal);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 97.389;
-  stroke-dashoffset: 0;
-  transition: stroke 0.3s;
-}
-
-.timer-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: var(--accent-teal);
-  transition: color 0.3s;
-}
-
-.timer-container.warning .timer-progress { stroke: var(--accent-amber); }
-.timer-container.warning .timer-text { color: var(--accent-amber); }
-
-.timer-container.danger .timer-progress { stroke: var(--accent-coral); }
-.timer-container.danger .timer-text { color: var(--accent-coral); }
-.timer-container.danger { animation: timerPulse 0.5s ease-in-out infinite; }
-
-@keyframes timerPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
 }
 
 .score-display {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
 }
 
 .score-display .score-icon { color: var(--accent-amber); }
 .score-display .score-val { color: var(--accent-amber); font-weight: 600; }
 
-/* ==================== GAME LAYOUT (Mobile-first: flex column) ==================== */
 .game-layout {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 60px);
 }
 
-/* Right panel flattens on mobile */
-.right-panel { display: contents; }
+/* Left Panel - Clues */
+.clues-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-/* ==================== INCUBATOR AREA ==================== */
-.incubator-area {
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(93,173,236,0.1);
+}
+
+.clue-instruction {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  padding: 0.8rem;
+  background: rgba(93,173,236,0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.clue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   flex: 1;
+  overflow-y: auto;
+}
+
+.clue-item {
+  background: var(--bg-panel);
+  border: 1px solid rgba(93,173,236,0.1);
+  border-radius: 8px;
+  padding: 0.8rem;
+  animation: clueAppear 0.4s ease;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.clue-item .clue-label {
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 0.75rem;
+  margin-bottom: 0.3rem;
+}
+
+.clue-item .clue-text { color: var(--text-secondary); }
+
+@keyframes clueAppear {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ==================== INCUBATOR & BABY ==================== */
+.incubator-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 0;
-  padding: 0.3rem 0.5rem 0;
-  order: 1;
+  justify-content: center;
 }
 
 .incubator-frame {
-  flex: 1;
-  width: 100%;
   position: relative;
-  background: rgba(173, 216, 255, 0.04);
-  border: 1px solid rgba(93,173,236,0.12);
-  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3/4;
+  background: rgba(173, 216, 255, 0.05);
+  border: 2px solid rgba(93,173,236,0.15);
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 0 40px rgba(93,173,236,0.05), inset 0 0 60px rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 0;
-  box-shadow: 0 0 30px rgba(93,173,236,0.04), inset 0 0 40px rgba(0,0,0,0.2);
 }
 
 .incubator-label {
   position: absolute;
-  top: 6px;
-  left: 10px;
+  top: 12px;
+  left: 16px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
+  font-size: 0.65rem;
   color: var(--text-dim);
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -460,19 +307,19 @@ body::before {
 
 .incubator-temp {
   position: absolute;
-  top: 6px;
-  right: 10px;
+  top: 12px;
+  right: 16px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   color: var(--accent-teal);
   z-index: 5;
 }
 
-/* Baby wrapper */
+/* Baby image wrapper - holds the PNG and all overlays */
 .baby-wrapper {
   position: relative;
-  width: 52%;
-  max-width: 220px;
+  width: 80%;
+  max-width: 340px;
 }
 
 .baby-wrapper img.baby-base {
@@ -485,14 +332,17 @@ body::before {
 /* Condition-specific image filters */
 .baby-wrapper.cond-rds img.baby-base {
   filter: hue-rotate(220deg) saturate(0.5) brightness(0.92);
+  /* Gives a blue-purple cyanotic tint */
 }
 
 .baby-wrapper.cond-ivh img.baby-base {
   filter: saturate(0.35) brightness(1.05);
+  /* Pale / anemic look */
 }
 
 .baby-wrapper.cond-nec img.baby-base {
   filter: saturate(0.55) brightness(0.9) sepia(0.15);
+  /* Grayish, unwell look */
 }
 
 .baby-wrapper.cond-pda img.baby-base,
@@ -515,43 +365,57 @@ body::before {
 .hotspot-zone::before {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -4px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 0, 0, 0.8);
+  border: 2px solid rgba(93,173,236,0.35);
   animation: hotspotPulse 2s ease-in-out infinite;
-  pointer-events: none;
 }
 
-.hotspot-zone:hover::before { border-color: rgba(93,173,236,0.7); }
-.hotspot-zone:hover { background: rgba(93,173,236,0.12); }
+.hotspot-zone:hover::before {
+  border-color: rgba(93,173,236,0.7);
+}
+
+.hotspot-zone:hover {
+  background: rgba(93,173,236,0.12);
+}
 
 .hotspot-zone.discovered::before {
   border-color: rgba(78,205,196,0.4);
   animation: none;
 }
 
-.hotspot-zone.discovered { background: rgba(78,205,196,0.4); }
+.hotspot-zone.discovered {
+  background: rgba(78,205,196,0.08);
+}
 
-.zone-head    { width: 40%; height: 13%; top: 0%;  left: 28%; border-radius: 40%; }
-.zone-face    { width: 32%; height: 14%; top: 15%; left: 34%; border-radius: 40%; }
-.zone-chest   { width: 30%; height: 10%; top: 42%; left: 35%; border-radius: 40%; }
-.zone-abdomen { width: 26%; height: 10%; top: 55%; left: 37%; border-radius: 40%; z-index: 11; }
-.zone-limbs   { width: 92%; height: 18%; top: 70%; left: 4%;  border-radius: 30%; }
-.zone-monitor { width: 26%; height: 12%; top: -2%; right: -4%; left: auto; border-radius: 8px; background: rgba(93,173,236,0.06); border: 1px solid rgba(93,173,236,0.18); display: flex; align-items: center; justify-content: center; gap: 4px; min-width: auto; min-height: auto; }
+/* Zone positions (percentage-based, relative to baby image) */
+.zone-head      { width: 40%; height: 14%; top: 0%;   left: 28%; border-radius: 40%; }
+.zone-face      { width: 32%; height: 16%; top: 16%;  left: 34%; border-radius: 40%; }
+.zone-chest     { width: 30%; height: 12%; top: 42%;  left: 35%; border-radius: 40%; }
+.zone-abdomen   { width: 26%; height: 12%; top: 54%;  left: 37%; border-radius: 40%; }
+.zone-limbs     { width: 92%; height: 22%; top: 68%;  left: 4%;  border-radius: 30%; }
+.zone-monitor   { width: 26%; height: 12%; top: -2%;  right: -4%; left: auto; border-radius: 8px; background: rgba(93,173,236,0.06); border: 1px solid rgba(93,173,236,0.18); display: flex; align-items: center; justify-content: center; gap: 4px; }
 .zone-monitor::before { border-radius: 8px; }
-.zone-monitor svg { width: 11px; height: 11px; }
-.zone-monitor span { font-size: 0.5rem; color: var(--text-dim); letter-spacing: 0.5px; }
 
-/* ==================== SYMPTOM OVERLAYS ==================== */
-.baby-wrapper.cond-rds .overlay-chest-retract { display: block; }
+/* ==================== SYMPTOM OVERLAYS (CSS effects on baby) ==================== */
+
+/* RDS - Chest retraction breathing animation */
+.baby-wrapper.cond-rds .overlay-chest-retract {
+  display: block;
+}
+
 .overlay-chest-retract {
   display: none;
   position: absolute;
-  top: 42%; left: 32%; width: 36%; height: 14%;
+  top: 42%;
+  left: 32%;
+  width: 36%;
+  height: 14%;
   border-radius: 50%;
   background: rgba(0,0,0,0.08);
   animation: chestRetract 1.3s ease-in-out infinite;
-  pointer-events: none; z-index: 2;
+  pointer-events: none;
+  z-index: 2;
 }
 
 @keyframes chestRetract {
@@ -560,19 +424,28 @@ body::before {
   60% { transform: scaleY(0.8); opacity: 0.15; }
 }
 
-.baby-wrapper.cond-rds .overlay-nasal-flare { display: block; }
+/* RDS - Nasal flare indicators */
+.baby-wrapper.cond-rds .overlay-nasal-flare {
+  display: block;
+}
+
 .overlay-nasal-flare {
   display: none;
   position: absolute;
-  top: 26%; left: 46%; width: 10%; height: 4%;
-  pointer-events: none; z-index: 3;
+  top: 26%;
+  left: 46%;
+  width: 10%;
+  height: 4%;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .overlay-nasal-flare::before,
 .overlay-nasal-flare::after {
   content: '';
   position: absolute;
-  width: 8px; height: 6px;
+  width: 8px;
+  height: 6px;
   background: rgba(180,130,160,0.5);
   border-radius: 50%;
   animation: nasalFlare 1.3s ease-in-out infinite;
@@ -586,17 +459,24 @@ body::before {
   30% { transform: scaleX(1.6); }
 }
 
-.baby-wrapper.cond-rds .overlay-grunt-waves { display: flex; }
+/* RDS - Grunt sound waves from mouth */
+.baby-wrapper.cond-rds .overlay-grunt-waves {
+  display: flex;
+}
+
 .overlay-grunt-waves {
   display: none;
   position: absolute;
-  top: 30%; left: 62%;
+  top: 30%;
+  left: 62%;
   gap: 3px;
-  pointer-events: none; z-index: 3;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .grunt-wave {
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   border: 1.5px solid rgba(180,130,160,0.6);
   border-radius: 50%;
   animation: gruntWave 1.8s ease-out infinite;
@@ -611,12 +491,20 @@ body::before {
   100% { opacity: 0; transform: scale(1.8) translateX(8px); }
 }
 
-.baby-wrapper.cond-pda .overlay-heart-pulse { display: block; }
+/* PDA - Heart pulse glow */
+.baby-wrapper.cond-pda .overlay-heart-pulse {
+  display: block;
+}
+
 .overlay-heart-pulse {
   display: none;
   position: absolute;
-  top: 43%; left: 38%; width: 24%; height: 10%;
-  pointer-events: none; z-index: 2;
+  top: 43%;
+  left: 38%;
+  width: 24%;
+  height: 10%;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .overlay-heart-pulse::before {
@@ -635,23 +523,30 @@ body::before {
   45% { transform: scale(1.1); opacity: 0.5; }
 }
 
-.baby-wrapper.cond-pda .overlay-bounding-pulse { display: block; }
+/* PDA - Bounding pulse on wrists */
+.baby-wrapper.cond-pda .overlay-bounding-pulse {
+  display: block;
+}
+
 .overlay-bounding-pulse {
   display: none;
   position: absolute;
-  pointer-events: none; z-index: 3;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .bounding-dot {
   position: absolute;
-  width: 12px; height: 12px;
+  width: 12px;
+  height: 12px;
   border: 2px solid rgba(255,107,107,0.5);
   border-radius: 50%;
   animation: boundingPulse 0.8s ease infinite;
 }
 
-.bounding-dot.left-wrist { top: 0; left: 0; }
+.bounding-dot.left-wrist  { top: 0; left: 0; }
 .bounding-dot.right-wrist { top: 0; right: 0; }
+
 .bounding-dot:nth-child(2) { animation-delay: 0.4s; }
 
 @keyframes boundingPulse {
@@ -659,17 +554,26 @@ body::before {
   50% { transform: scale(1.5); opacity: 0.8; }
 }
 
-.baby-wrapper.cond-pda .overlay-murmur { display: block; }
+/* PDA - Murmur wave lines near left upper chest */
+.baby-wrapper.cond-pda .overlay-murmur {
+  display: block;
+}
+
 .overlay-murmur {
   display: none;
   position: absolute;
-  top: 42%; left: 28%; width: 20px; height: 30px;
-  pointer-events: none; z-index: 3;
+  top: 42%;
+  left: 28%;
+  width: 20px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .murmur-line {
   position: absolute;
-  width: 14px; height: 2px;
+  width: 14px;
+  height: 2px;
   background: rgba(93,173,236,0.5);
   border-radius: 1px;
   animation: murmurWave 1.2s linear infinite;
@@ -684,12 +588,20 @@ body::before {
   100% { opacity: 0; transform: translateX(-18px); }
 }
 
-.baby-wrapper.cond-ivh .overlay-fontanelle { display: block; }
+/* IVH - Fontanelle bulge indicator */
+.baby-wrapper.cond-ivh .overlay-fontanelle {
+  display: block;
+}
+
 .overlay-fontanelle {
   display: none;
   position: absolute;
-  top: 1%; left: 42%; width: 16%; height: 6%;
-  pointer-events: none; z-index: 3;
+  top: 1%;
+  left: 42%;
+  width: 16%;
+  height: 6%;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .overlay-fontanelle::before {
@@ -706,7 +618,10 @@ body::before {
   50% { transform: scaleY(1.5) translateY(-3px); }
 }
 
-.baby-wrapper.cond-ivh { animation: seizureTwitch 4s ease infinite; }
+/* IVH - Seizure body twitch */
+.baby-wrapper.cond-ivh {
+  animation: seizureTwitch 4s ease infinite;
+}
 
 @keyframes seizureTwitch {
   0%, 84%, 100% { transform: translateX(0) rotate(0deg); }
@@ -717,28 +632,41 @@ body::before {
   94% { transform: translateX(1px) rotate(0.1deg); }
 }
 
-.baby-wrapper.cond-nec .overlay-abdomen-distend { display: block; }
+/* NEC - Abdomen distension glow */
+.baby-wrapper.cond-nec .overlay-abdomen-distend {
+  display: block;
+}
+
 .overlay-abdomen-distend {
   display: none;
   position: absolute;
-  top: 55%; left: 34%; width: 32%; height: 14%;
+  top: 55%;
+  left: 34%;
+  width: 32%;
+  height: 14%;
   border-radius: 50%;
-  pointer-events: none; z-index: 2;
+  pointer-events: none;
+  z-index: 2;
   animation: abdDistend 3s ease-in-out infinite;
 }
 
 .overlay-abdomen-distend::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   background: rgba(240,200,170,0.2);
   box-shadow: 0 0 15px rgba(240,180,140,0.15);
 }
 
+/* NEC shiny highlight on belly */
 .overlay-abdomen-distend::after {
   content: '';
   position: absolute;
-  top: 15%; left: 20%; width: 40%; height: 30%;
+  top: 15%;
+  left: 20%;
+  width: 40%;
+  height: 30%;
   border-radius: 50%;
   background: rgba(255,255,255,0.15);
 }
@@ -748,18 +676,25 @@ body::before {
   50% { transform: scale(1.12); }
 }
 
-.baby-wrapper.cond-nec .overlay-blood-spot { display: block; }
+/* NEC - Blood spot indicator near diaper */
+.baby-wrapper.cond-nec .overlay-blood-spot {
+  display: block;
+}
+
 .overlay-blood-spot {
   display: none;
   position: absolute;
-  top: 65%; left: 48%;
-  pointer-events: none; z-index: 3;
+  top: 65%;
+  left: 48%;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .overlay-blood-spot::before {
   content: '';
   position: absolute;
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   background: rgba(180,80,60,0.4);
   border-radius: 50%;
 }
@@ -767,20 +702,30 @@ body::before {
 .overlay-blood-spot::after {
   content: '';
   position: absolute;
-  top: 8px; left: -5px;
-  width: 4px; height: 4px;
+  top: 8px;
+  left: -5px;
+  width: 4px;
+  height: 4px;
   background: rgba(160,70,50,0.3);
   border-radius: 50%;
 }
 
-.baby-wrapper.cond-rop .overlay-eye-hint { display: block; }
+/* ROP - Eye exam dashed circle */
+.baby-wrapper.cond-rop .overlay-eye-hint {
+  display: block;
+}
+
 .overlay-eye-hint {
   display: none;
   position: absolute;
-  top: 20%; left: 36%; width: 28%; height: 8%;
+  top: 20%;
+  left: 36%;
+  width: 28%;
+  height: 8%;
   border: 2px dashed rgba(244,162,97,0.3);
   border-radius: 50%;
-  pointer-events: none; z-index: 3;
+  pointer-events: none;
+  z-index: 3;
   animation: eyeHintPulse 3s ease-in-out infinite;
 }
 
@@ -789,76 +734,45 @@ body::before {
   50% { opacity: 0.7; }
 }
 
-/* ==================== PROMPT BAR ==================== */
-.prompt-bar {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.25rem 0.8rem;
-  order: 2;
+/* ==================== PROMPT AREA ==================== */
+.prompt-area {
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .prompt-text {
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
-.clue-toggle-btn {
+/* ==================== RIGHT PANEL ==================== */
+.right-panel {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: rgba(93,173,236,0.1);
-  border: 1px solid rgba(93,173,236,0.25);
-  color: var(--accent-blue);
-  padding: 0.25rem 0.7rem;
-  border-radius: 20px;
-  font-size: 0.68rem;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  flex-shrink: 0;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.clue-toggle-btn:hover {
-  background: rgba(93,173,236,0.2);
-  border-color: var(--accent-blue);
-}
-
-.clue-toggle-btn.has-new {
-  animation: clueNotify 0.5s ease;
-}
-
-@keyframes clueNotify {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-/* ==================== VITALS MONITOR ==================== */
 .vitals-monitor {
-  flex-shrink: 0;
-  order: 3;
   background: #0a1520;
-  border-top: 1px solid rgba(93,173,236,0.08);
-  border-bottom: 1px solid rgba(93,173,236,0.08);
-  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(93,173,236,0.15);
+  border-radius: 12px;
+  padding: 1rem;
   font-family: 'JetBrains Mono', monospace;
 }
 
 .vitals-header {
-  display: none;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   color: var(--text-dim);
   letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .vitals-header .dot {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent-green);
   animation: blink 1s ease infinite;
@@ -870,9 +784,8 @@ body::before {
 }
 
 .waveform-container {
-  display: none;
-  height: 45px;
-  margin: 0.3rem 0;
+  height: 55px;
+  margin: 0.5rem 0;
   overflow: hidden;
   background: rgba(0,0,0,0.2);
   border-radius: 4px;
@@ -881,93 +794,68 @@ body::before {
 
 .waveform-canvas { width: 100%; height: 100%; }
 
-#vitals-rows {
-  display: flex;
-  gap: 0.25rem;
-  flex-wrap: nowrap;
-}
-
 .vital-row {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.1rem 0.2rem;
-  background: rgba(255,255,255,0.02);
-  border-radius: 3px;
-  gap: 0;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
 }
 
-.vital-label { font-size: 0.5rem; color: var(--text-dim); }
-.vital-value { font-size: 0.75rem; font-weight: 600; }
+.vital-row:last-child { border-bottom: none; }
+
+.vital-label { font-size: 0.7rem; color: var(--text-dim); }
+
+.vital-value { font-size: 1rem; font-weight: 600; }
 .vital-value.normal { color: var(--accent-green); }
 .vital-value.warning { color: var(--accent-amber); }
 .vital-value.danger { color: var(--accent-coral); }
-.vital-unit { font-size: 0.45rem; color: var(--text-dim); margin-left: 1px; }
+.vital-unit { font-size: 0.6rem; color: var(--text-dim); margin-left: 2px; }
 
-/* ==================== DIAGNOSIS PANEL ==================== */
+/* Diagnosis Panel */
 .diagnosis-panel {
-  flex-shrink: 0;
-  order: 4;
-  padding: 0.35rem 0.6rem;
-  padding-bottom: calc(0.35rem + env(safe-area-inset-bottom, 0px));
-  background: var(--bg-deep);
-  border-top: 1px solid rgba(93,173,236,0.08);
-}
-
-.diagnosis-panel .panel-header {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-
-#diagnosis-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .diagnosis-btn {
   background: var(--bg-panel);
-  border: 1px solid rgba(93,173,236,0.1);
-  border-radius: 8px;
-  padding: 0.4rem 0.5rem;
+  border: 1px solid rgba(93,173,236,0.12);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
   color: var(--text-secondary);
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
   touch-action: manipulation;
-  line-height: 1.3;
 }
 
 .diagnosis-btn .diag-num {
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background: rgba(93,173,236,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   color: var(--accent-blue);
   flex-shrink: 0;
 }
 
-.diagnosis-btn:active {
-  transform: scale(0.97);
+.diagnosis-btn:hover {
+  border-color: var(--accent-blue);
+  background: rgba(93,173,236,0.08);
+  color: var(--text-primary);
+  transform: translateX(4px);
 }
 
 .diagnosis-btn.correct {
@@ -986,120 +874,11 @@ body::before {
 .diagnosis-btn:disabled { cursor: default; pointer-events: none; }
 
 .submit-hint {
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   color: var(--text-dim);
   text-align: center;
-  padding-top: 0.2rem;
-}
-
-/* ==================== CLUES BOTTOM SHEET (Mobile) ==================== */
-.clue-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  
-  z-index: 65;
-}
-
-.clue-backdrop.active { display: block; }
-
-.clues-container {
-  display: none;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--bg-panel);
-  border-radius: 16px 16px 0 0;
-  z-index: 70;
-  flex-direction: column;
-  box-shadow: 0 -8px 30px rgba(0,0,0,0.4);
-  max-height: 85vh;
-}
-
-.clues-container.open {
-  display: flex;
-}
-
-.sheet-handle {
-  width: 36px;
-  height: 4px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 2px;
-  margin: 8px auto 4px;
-  flex-shrink: 0;
-}
-
-.clues-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.3rem 1rem 0.5rem;
-  border-bottom: 1px solid rgba(93,173,236,0.1);
-  flex-shrink: 0;
-}
-
-.clues-title {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-}
-
-.clues-close-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 0.2rem;
-  line-height: 1;
-}
-
-.clue-instruction {
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  line-height: 1.5;
-  padding: 0.5rem 1rem;
-  border-left: 3px solid var(--accent-blue);
-  margin: 0.5rem 0.8rem;
-  background: rgba(93,173,236,0.04);
-  border-radius: 0 6px 6px 0;
-  flex-shrink: 0;
-}
-
-.clue-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.4rem 0.8rem 0.8rem;
-}
-
-.clue-backdrop.active {
-  touch-action: none;
-}
-
-.clue-item {
-  background: var(--bg-card);
-  border: 1px solid rgba(93,173,236,0.08);
-  border-radius: 8px;
-  padding: 0.6rem 0.7rem;
-  animation: clueAppear 0.4s ease;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-
-.clue-item .clue-label {
-  color: var(--accent-teal);
-  font-weight: 600;
-  font-size: 0.68rem;
-  margin-bottom: 0.2rem;
-}
-
-.clue-item .clue-text { color: var(--text-secondary); }
-
-@keyframes clueAppear {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
+  margin-top: auto;
+  padding-top: 0.5rem;
 }
 
 /* ==================== FEEDBACK OVERLAY ==================== */
@@ -1112,7 +891,7 @@ body::before {
   z-index: 100;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .feedback-overlay.active { display: flex; }
@@ -1121,11 +900,9 @@ body::before {
   background: var(--bg-panel);
   border: 1px solid rgba(93,173,236,0.2);
   border-radius: 16px;
-  padding: 1.5rem;
-  max-width: 500px;
+  padding: 2.5rem;
+  max-width: 550px;
   width: 100%;
-  max-height: 88vh;
-  overflow-y: auto;
   animation: feedbackIn 0.4s ease;
 }
 
@@ -1135,14 +912,14 @@ body::before {
 }
 
 .feedback-icon {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.8rem;
-  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .feedback-icon.correct {
@@ -1157,30 +934,23 @@ body::before {
   color: var(--accent-coral);
 }
 
-.feedback-icon.timeout {
-  background: rgba(244,162,97,0.15);
-  border: 2px solid var(--accent-amber);
-  color: var(--accent-amber);
-}
-
-.feedback-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.feedback-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; }
 .feedback-title.correct { color: var(--accent-green); }
 .feedback-title.wrong { color: var(--accent-coral); }
-.feedback-title.timeout { color: var(--accent-amber); }
 
 .feedback-answer {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--accent-blue);
   font-weight: 600;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .feedback-explanation {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 1.2rem;
-  padding: 0.8rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   background: rgba(0,0,0,0.2);
   border-radius: 10px;
   border-left: 3px solid var(--accent-blue);
@@ -1192,14 +962,13 @@ body::before {
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
   color: var(--bg-deep);
   border: none;
-  padding: 0.7rem 2rem;
-  font-size: 0.9rem;
+  padding: 0.8rem 2rem;
+  font-size: 0.95rem;
   font-weight: 700;
   font-family: 'Noto Sans TC', sans-serif;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s;
-  width: 100%;
 }
 
 .btn-next:hover {
@@ -1211,30 +980,29 @@ body::before {
 #results-screen {
   display: none;
   min-height: 100vh;
-  min-height: 100dvh;
   position: relative;
   z-index: 1;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .results-card {
   background: var(--bg-panel);
   border: 1px solid rgba(93,173,236,0.2);
   border-radius: 20px;
-  padding: 2rem 1.5rem;
-  max-width: 450px;
+  padding: 3rem;
+  max-width: 500px;
   width: 100%;
   text-align: center;
   animation: feedbackIn 0.5s ease;
 }
 
 .results-score-circle {
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin: 0 auto 1.2rem;
+  margin: 0 auto 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1242,8 +1010,8 @@ body::before {
   font-family: 'JetBrains Mono', monospace;
 }
 
-.results-score-circle .big-num { font-size: 2rem; font-weight: 700; }
-.results-score-circle .of-total { font-size: 0.75rem; }
+.results-score-circle .big-num { font-size: 2.5rem; font-weight: 700; }
+.results-score-circle .of-total { font-size: 0.8rem; }
 
 .results-score-circle.excellent {
   background: rgba(107,203,119,0.12);
@@ -1263,33 +1031,33 @@ body::before {
   color: var(--accent-coral);
 }
 
-.results-message { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.results-message { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
 
 .results-detail {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.results-breakdown { text-align: left; margin-bottom: 1.5rem; }
+.results-breakdown { text-align: left; margin-bottom: 2rem; }
 
 .results-row {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 0;
+  gap: 0.8rem;
+  padding: 0.6rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
 }
 
-.results-row .r-icon { font-size: 0.9rem; width: 20px; text-align: center; }
+.results-row .r-icon { font-size: 1rem; width: 24px; text-align: center; }
 .results-row .r-name { flex: 1; color: var(--text-secondary); }
 
 .results-row .r-result {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 4px;
 }
 
@@ -1300,14 +1068,13 @@ body::before {
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
   color: var(--bg-deep);
   border: none;
-  padding: 0.75rem 2rem;
-  font-size: 0.95rem;
+  padding: 0.8rem 2.5rem;
+  font-size: 1rem;
   font-weight: 700;
   font-family: 'Noto Sans TC', sans-serif;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s;
-  width: 100%;
 }
 
 .btn-restart:hover {
@@ -1315,7 +1082,6 @@ body::before {
   box-shadow: 0 8px 20px rgba(93,173,236,0.3);
 }
 
-/* ==================== ANIMATIONS ==================== */
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1326,211 +1092,313 @@ body::before {
   50% { opacity: 0.7; transform: scale(1.08); }
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+/* ==================== TABLET (<=1100px) ==================== */
+@media (max-width: 1100px) {
+  .game-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .incubator-area { order: 1; grid-column: 1 / -1; }
+  .clues-panel    { order: 2; }
+  .right-panel    { order: 3; }
+}
 
-/* ==================== TABLET (>=768px) ==================== */
-@media (min-width: 768px) {
-  .title-main { font-size: 2.5rem; }
-  .title-sub { font-size: 1rem; }
-  .btn-start { padding: 1rem 3rem; font-size: 1.1rem; }
+/* ==================== MOBILE (<=768px) ==================== */
+@media (max-width: 768px) {
+  /* --- Title screen --- */
+  .title-main { font-size: 1.8rem; }
+  .title-sub { font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .title-conditions { gap: 0.4rem; margin-bottom: 2rem; }
+  .condition-tag { font-size: 0.7rem; padding: 0.35rem 0.7rem; }
+  .btn-start { padding: 0.8rem 2rem; font-size: 1rem; }
 
-  .top-bar { padding: 0.5rem 1.5rem; height: 48px; }
-  .round-label { font-size: 0.8rem; }
-  .progress-bar { width: 120px; height: 5px; }
-  .timer-container { width: 40px; height: 40px; }
-  .timer-svg { width: 40px; height: 40px; }
-  .timer-text { font-size: 0.7rem; }
-  .score-display { font-size: 0.85rem; }
+  /* --- Top bar compact --- */
+  .top-bar { padding: 0.6rem 1rem; }
+  .round-label { font-size: 0.75rem; }
+  .progress-bar { width: 100px; }
+  .score-display { font-size: 0.8rem; }
 
-  .vitals-header { display: flex; }
-  .waveform-container { display: block; }
+  /* --- Game layout: single column, no gap bloat --- */
+  .game-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 0;
+    padding: 0;
+    min-height: auto;
+  }
 
+  .incubator-area { order: 1; padding: 0.8rem 0.5rem 0; }
+  .right-panel    { order: 2; display: contents; }
+  .clues-panel    { order: 4; padding: 0 0.8rem 0.8rem; }
+
+  /* --- Vitals: horizontal compact strip --- */
   .vitals-monitor {
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
-    border: 1px solid rgba(93,173,236,0.1);
+    order: 2;
+    border-radius: 0;
+    padding: 0.5rem 0.8rem;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+  }
+
+  .vitals-header { margin-bottom: 0.4rem; font-size: 0.6rem; }
+
+  .waveform-container { height: 36px; margin: 0.3rem 0; }
+
+  #vitals-rows {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
   }
 
   #vitals-rows .vital-row {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 0.3rem 0;
-    background: transparent;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-  }
-
-  #vitals-rows .vital-row:last-child { border-bottom: none; }
-  .vital-label { font-size: 0.65rem; }
-  .vital-value { font-size: 0.9rem; }
-  .vital-unit { font-size: 0.55rem; }
-
-  #vitals-rows {
+    flex: 1 1 auto;
+    min-width: 55px;
+    border-bottom: none;
+    padding: 0.2rem 0.4rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
     flex-direction: column;
+    align-items: center;
     gap: 0;
   }
 
-  .baby-wrapper { width: 65%; max-width: 300px; }
+  #vitals-rows .vital-label { font-size: 0.55rem; }
+  #vitals-rows .vital-value { font-size: 0.8rem; }
+  #vitals-rows .vital-unit  { font-size: 0.5rem; }
 
-  .incubator-label { font-size: 0.6rem; }
-  .incubator-temp { font-size: 0.65rem; }
-
-  .feedback-card { padding: 2rem; }
-  .feedback-icon { width: 56px; height: 56px; font-size: 1.5rem; }
-  .feedback-title { font-size: 1.3rem; }
-  .feedback-explanation { font-size: 0.85rem; }
-
-  .results-card { padding: 2.5rem; }
-  .results-score-circle { width: 110px; height: 110px; }
-  .results-score-circle .big-num { font-size: 2.5rem; }
-}
-
-/* ==================== DESKTOP (>=1100px) ==================== */
-@media (min-width: 1100px) {
-  .title-main { font-size: 3rem; }
-  .copyright-footer { font-size: 0.7rem; bottom: 1.5rem; right: 2rem; }
-
-  #game-screen { height: 100vh; }
-
-  .top-bar { padding: 0.6rem 2rem; height: 52px; }
-  .progress-bar { width: 180px; height: 6px; }
-
-  .game-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr 280px;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-  }
-
-  .right-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    order: 3;
-  }
-
-  .incubator-area { order: 2; padding: 0; }
-
-  .incubator-frame {
-    max-width: 480px;
-    aspect-ratio: 3/4;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(93,173,236,0.05), inset 0 0 60px rgba(0,0,0,0.3);
-  }
-
-  .baby-wrapper { width: 75%; max-width: 320px; }
-
-  .incubator-label { font-size: 0.65rem; top: 12px; left: 16px; }
-  .incubator-temp { font-size: 0.7rem; top: 12px; right: 16px; }
-
-  .prompt-bar { margin-top: 0.5rem; }
-  .prompt-text { font-size: 0.85rem; }
-  .clue-toggle-btn { display: none; }
-
-  /* Clues as sidebar on desktop */
-  .clues-container {
-    display: flex !important;
-    position: static;
-    max-height: none;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-    order: 1;
-  }
-
-  .sheet-handle { display: none; }
-  .clues-close-btn { display: none; }
-
-  .clues-header {
-    border-bottom: 1px solid rgba(93,173,236,0.1);
-    padding: 0 0 0.5rem;
-  }
-
-  .clues-title {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .clue-instruction { margin: 0.5rem 0; }
-
-  .clue-list {
-    max-height: none;
-    padding: 0;
-  }
-
-  .clue-backdrop { display: none !important; }
-
-  /* Diagnosis panel desktop */
+  /* --- Diagnosis: sticky bottom bar --- */
   .diagnosis-panel {
-    flex: 1;
-    border-top: none;
-    padding: 0;
-    background: transparent;
+    order: 3;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    background: var(--bg-deep);
+    border-top: 1px solid rgba(93,173,236,0.1);
+    padding: 0.6rem 0.8rem;
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    gap: 0.35rem;
   }
 
-  .diagnosis-panel .panel-header {
-    font-size: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(93,173,236,0.1);
-  }
-
-  #diagnosis-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
+  .diagnosis-panel .panel-header { display: none; }
 
   .diagnosis-btn {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.8rem;
-    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
   }
 
   .diagnosis-btn .diag-num {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
   }
 
-  .diagnosis-btn:hover {
-    border-color: var(--accent-blue);
-    background: rgba(93,173,236,0.08);
-    color: var(--text-primary);
-    transform: translateX(4px);
+  .submit-hint { font-size: 0.6rem; padding-top: 0.2rem; }
+
+  /* --- Incubator: wider, shorter --- */
+  .incubator-frame {
+    max-width: 100%;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    min-height: 280px;
+    padding: 0.5rem;
   }
 
-  .submit-hint { font-size: 0.68rem; padding-top: 0.5rem; }
+  .baby-wrapper { width: 65%; max-width: 260px; }
 
-  .vitals-monitor { border-radius: 12px; padding: 0.8rem 1rem; }
+  .incubator-label { font-size: 0.55rem; top: 8px; left: 10px; }
+  .incubator-temp  { font-size: 0.6rem; top: 8px; right: 10px; }
+
+  /* --- Hotspot zones: bigger touch targets --- */
+  .hotspot-zone { min-width: 44px; min-height: 44px; }
+
+  .hotspot-zone::before { inset: -6px; border-width: 2.5px; }
+
+  .zone-monitor {
+    min-width: auto;
+    min-height: auto;
+    width: 22%;
+    height: 10%;
+    top: -4%;
+    right: -2%;
+  }
+
+  .zone-monitor svg { width: 11px; height: 11px; }
+  .zone-monitor span { font-size: 0.5rem; }
+
+  /* --- Prompt text --- */
+  .prompt-area { margin-top: 0.5rem; }
+  .prompt-text { font-size: 0.78rem; }
+
+  /* --- Clues panel: compact scrollable --- */
+  .clues-panel { gap: 0.5rem; }
+
+  .clues-panel .panel-header { font-size: 0.75rem; }
+
+  .clue-instruction {
+    font-size: 0.72rem;
+    padding: 0.5rem 0.6rem;
+    line-height: 1.5;
+  }
+
+  .clue-list {
+    max-height: 200px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .clue-item {
+    padding: 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .clue-item .clue-label { font-size: 0.68rem; }
+
+  /* --- Feedback overlay --- */
+  .feedback-overlay { padding: 1rem; }
+
+  .feedback-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .feedback-icon { width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.8rem; }
+  .feedback-title { font-size: 1.1rem; }
+  .feedback-answer { font-size: 0.9rem; }
+  .feedback-explanation { font-size: 0.78rem; padding: 0.8rem; line-height: 1.7; }
+  .btn-next { width: 100%; padding: 0.75rem; font-size: 0.9rem; }
+
+  /* --- Results screen --- */
+  .results-card { padding: 2rem 1.5rem; }
+  .results-score-circle { width: 90px; height: 90px; }
+  .results-score-circle .big-num { font-size: 2rem; }
+  .results-message { font-size: 1rem; }
+  .results-detail { font-size: 0.8rem; }
+  .results-row { font-size: 0.78rem; padding: 0.5rem 0; }
+  .btn-restart { width: 100%; padding: 0.75rem; }
+}
+
+/* ==================== SMALL MOBILE (<=400px) ==================== */
+@media (max-width: 400px) {
+  .title-main { font-size: 1.5rem; }
+  .baby-wrapper { width: 60%; max-width: 220px; }
+  .incubator-frame { min-height: 240px; }
+  .diagnosis-btn { padding: 0.45rem 0.6rem; font-size: 0.7rem; }
+  .clue-list { max-height: 160px; }
+  .vital-value { font-size: 0.75rem; }
 }
 
 /* ==================== LANDSCAPE MOBILE ==================== */
 @media (max-height: 500px) and (orientation: landscape) {
   .game-layout {
-    display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr auto;
-    gap: 0.4rem;
-    padding: 0.4rem;
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .incubator-area { order: 1; grid-row: 1 / 3; }
+  .right-panel    { order: 2; display: contents; }
+  .clues-panel    { order: 3; }
+
+  .vitals-monitor { order: 2; }
+  .diagnosis-panel {
+    order: 4;
+    position: static;
+    padding: 0.5rem;
   }
 
-  .right-panel { display: contents; }
-  .incubator-area { order: 1; grid-row: 1 / 3; }
-  .vitals-monitor { order: 2; }
-  .diagnosis-panel { order: 3; position: static; padding: 0.4rem; }
-
-  .incubator-frame { min-height: 160px; }
-  .baby-wrapper { width: 45%; }
-  .clue-list { max-height: 100px; overflow-y: auto; }
+  .incubator-frame { min-height: 200px; }
+  .baby-wrapper { width: 50%; }
+  .clue-list { max-height: 120px; }
   .feedback-card { max-height: 95vh; }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+/* ==================== COPYRIGHT FOOTER ==================== */
+.copyright-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+  animation: fadeSlideDown 0.8s ease 0.5s both;
+}
+
+.copyright-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.copyright-footer a:hover {
+  color: var(--accent-blue);
+}
+
+@media (max-width: 768px) {
+  .copyright-footer {
+    font-size: 0.6rem;
+    bottom: 1rem;
+    right: 1.2rem;
+  }
 }
 </style>
 </head>
 <body>
+
+<!-- Auth Guard -->
+<div id="auth-gate" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#0d1b2a;font-family:'Noto Sans TC',sans-serif;">
+  <div id="auth-gate-content" style="display:none;text-align:center;color:#e8edf2;padding:2rem;">
+    <div style="font-size:1.5rem;font-weight:700;margin-bottom:0.75rem;">需要登入才能遊玩</div>
+    <p style="color:#8fa3b8;margin-bottom:1.5rem;font-size:0.95rem;">請先至嫻話臨床登入或註冊帳號</p>
+    <a href="https://xiantalk.yi-hung-lee.work" style="display:inline-block;padding:0.75rem 2rem;background:#0D9488;color:#fff;border-radius:9999px;text-decoration:none;font-weight:500;font-size:0.95rem;">前往登入</a>
+  </div>
+</div>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL = 'https://oxhyycljwqhlxwlrweat.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94aHl5Y2xqd3FobHh3bHJ3ZWF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjQyODYsImV4cCI6MjA4NzI0MDI4Nn0.rP7cIkoi2ai6OVZDtF039D3IcJINTq7Zs3bPqBHcUPo';
+const cookieStorage = {
+  getItem(key) {
+    const cookies = document.cookie.split('; ').reduce((acc, c) => {
+      const [k, ...v] = c.split('=');
+      acc[decodeURIComponent(k)] = decodeURIComponent(v.join('='));
+      return acc;
+    }, {});
+    if (cookies[key]) return cookies[key];
+    let val = '', i = 0;
+    while (cookies[key + '.' + i] !== undefined) { val += cookies[key + '.' + i]; i++; }
+    return val || null;
+  },
+  setItem(key, value) {
+    document.cookie = key + '=' + encodeURIComponent(value) + ';domain=.yi-hung-lee.work;path=/;secure;samesite=lax;max-age=31536000';
+  },
+  removeItem(key) {
+    document.cookie = key + '=;domain=.yi-hung-lee.work;path=/;secure;samesite=lax;max-age=0';
+  }
+};
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { storage: cookieStorage, autoRefreshToken: false, detectSessionInUrl: false }
+});
+try {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    document.getElementById('auth-gate').remove();
+  } else {
+    document.getElementById('auth-gate-content').style.display = 'block';
+  }
+} catch {
+  document.getElementById('auth-gate-content').style.display = 'block';
+}
+</script>
 
 <!-- TITLE SCREEN -->
 <div id="title-screen">
@@ -1555,42 +1423,6 @@ body::before {
   </div>
 </div>
 
-<!-- TUTORIAL OVERLAY -->
-<div class="tutorial-overlay" id="tutorial-overlay">
-  <div class="tutorial-card">
-    <h2>遊戲說明</h2>
-    <div class="tutorial-steps-wrapper">
-      <div class="tutorial-step active" data-step="0">
-        <div class="tutorial-step-icon">🔍</div>
-        <h3>步驟一：觀察寶寶</h3>
-        <p>點擊保溫箱中寶寶的<strong>頭部、臉部、胸部、腹部、四肢</strong>及<strong>病歷紀錄</strong>來進行臨床觀察</p>
-      </div>
-      <div class="tutorial-step" data-step="1">
-        <div class="tutorial-step-icon">📋</div>
-        <h3>步驟二：收集線索</h3>
-        <p>每個部位都會提供不同的臨床觀察結果，仔細閱讀並注意<strong>異常發現</strong></p>
-      </div>
-      <div class="tutorial-step" data-step="2">
-        <div class="tutorial-step-icon">🩺</div>
-        <h3>步驟三：做出診斷</h3>
-        <p>根據收集到的線索，在<strong>60 秒</strong>內從五種早產兒合併症中選擇正確的診斷</p>
-      </div>
-    </div>
-    <div class="tutorial-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-    </div>
-    <div class="tutorial-actions">
-      <label class="tutorial-skip">
-        <input type="checkbox" id="tutorial-skip-check">
-        <span>下次不再顯示</span>
-      </label>
-      <button class="tutorial-btn" id="tutorial-btn" onclick="handleTutorialAction()">下一步</button>
-    </div>
-  </div>
-</div>
-
 <!-- GAME SCREEN -->
 <div id="game-screen">
   <div class="top-bar">
@@ -1600,43 +1432,37 @@ body::before {
         <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
       </div>
     </div>
-    <div class="timer-container" id="timer-container">
-      <svg class="timer-svg" viewBox="0 0 36 36">
-        <circle class="timer-track" cx="18" cy="18" r="15.5"/>
-        <circle class="timer-progress" id="timer-progress" cx="18" cy="18" r="15.5"/>
-      </svg>
-      <span class="timer-text" id="timer-text">60</span>
-    </div>
     <div class="score-display">
       <span class="score-icon">&#9733;</span>
+      <span>得分：</span>
       <span class="score-val" id="score-val">0</span>
     </div>
   </div>
 
   <div class="game-layout">
-    <!-- Clues container: bottom sheet on mobile, sidebar on desktop -->
-    <div class="clues-container" id="clues-container">
-      <div class="sheet-handle"></div>
-      <div class="clues-header">
-        <span class="clues-title">📋 臨床觀察紀錄</span>
-        <button class="clues-close-btn" onclick="toggleClues()">✕</button>
+    <!-- Left: Clues -->
+    <div class="clues-panel">
+      <div class="panel-header">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-blue)"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zM6.5 7h2l.5 5h-3l.5-5z"/></svg>
+        臨床觀察紀錄
       </div>
       <div class="clue-instruction">
-        點擊寶寶的<strong>頭部、臉部、胸部、腹部、四肢</strong>或<strong>病歷紀錄</strong>來收集臨床線索。
+        點擊寶寶的<strong>頭部、臉部、胸部、腹部、四肢</strong>或右上角<strong>病歷紀錄</strong>來收集臨床線索，再做出診斷。
       </div>
       <div class="clue-list" id="clue-list"></div>
     </div>
 
-    <!-- Center: Incubator -->
+    <!-- Center: Incubator with baby image -->
     <div class="incubator-area">
       <div class="incubator-frame">
         <div class="incubator-label">INCUBATOR — NICU BED #<span id="bed-num">3</span></div>
         <div class="incubator-temp" id="incubator-temp">34.2°C</div>
 
         <div class="baby-wrapper" id="baby-wrapper">
+          <!-- Base baby PNG -->
           <img class="baby-base" src="https://raw.githubusercontent.com/NICUgame/premature-infant-game/refs/heads/main/%E6%97%A9%E7%94%A2%E5%85%92.png" alt="早產兒">
 
-          <!-- Symptom overlays -->
+          <!-- Symptom overlays (shown/hidden per condition via CSS class) -->
           <div class="overlay-chest-retract"></div>
           <div class="overlay-nasal-flare"></div>
           <div class="overlay-grunt-waves">
@@ -1670,16 +1496,12 @@ body::before {
               <rect x="4" y="2" width="12" height="16" rx="2"/>
               <path d="M7 1v3M13 1v3M8 9h4M8 12h3"/>
             </svg>
-            <span>病歷</span>
+            <span style="font-size:0.58rem;color:var(--text-dim);letter-spacing:0.5px;">病歷</span>
           </div>
         </div>
       </div>
-
-      <div class="prompt-bar">
+      <div class="prompt-area">
         <p class="prompt-text" id="prompt-text">點擊寶寶的各個部位進行臨床觀察</p>
-        <button class="clue-toggle-btn" id="clue-toggle" onclick="toggleClues()">
-          📋 線索 <span id="clue-count-badge">0</span>/6
-        </button>
       </div>
     </div>
 
@@ -1698,7 +1520,7 @@ body::before {
 
       <div class="diagnosis-panel">
         <div class="panel-header">
-          <svg viewBox="0 0 16 16" width="14" height="14" fill="var(--accent-blue)"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-blue)"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
           選擇診斷
         </div>
         <div id="diagnosis-buttons"></div>
@@ -1707,9 +1529,6 @@ body::before {
     </div>
   </div>
 </div>
-
-<!-- CLUE BACKDROP -->
-<div class="clue-backdrop" id="clue-backdrop" onclick="toggleClues()"></div>
 
 <!-- FEEDBACK OVERLAY -->
 <div class="feedback-overlay" id="feedback-overlay">
@@ -1725,7 +1544,7 @@ body::before {
 <!-- RESULTS SCREEN -->
 <div id="results-screen">
   <div class="results-card">
-    <h2 style="font-size:0.9rem;color:var(--text-dim);margin-bottom:1.2rem;letter-spacing:1px;">評估結果</h2>
+    <h2 style="font-size:1rem;color:var(--text-dim);margin-bottom:1.5rem;letter-spacing:1px;">評估結果</h2>
     <div class="results-score-circle" id="results-circle">
       <span class="big-num" id="results-big"></span>
       <span class="of-total">/ 5</span>
@@ -1870,122 +1689,13 @@ var gameState = {
   answered: false
 };
 
-// ==================== TIMER ====================
-var TIMER_TOTAL = 60;
-var timerInterval = null;
-var timerSeconds = TIMER_TOTAL;
-var timerCircumference = 2 * Math.PI * 15.5; // ~97.389
-
-function startTimer() {
-  timerSeconds = TIMER_TOTAL;
-  updateTimerDisplay();
-
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(function() {
-    timerSeconds--;
-    updateTimerDisplay();
-
-    if (timerSeconds <= 0) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timeUp();
-    }
-  }, 1000);
-}
-
-function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-}
-
-function updateTimerDisplay() {
-  var container = document.getElementById('timer-container');
-  var progress = document.getElementById('timer-progress');
-  var text = document.getElementById('timer-text');
-
-  var offset = timerCircumference * (1 - timerSeconds / TIMER_TOTAL);
-  progress.style.strokeDashoffset = offset;
-  text.textContent = timerSeconds;
-
-  container.classList.remove('warning', 'danger');
-  if (timerSeconds <= 10) {
-    container.classList.add('danger');
-  } else if (timerSeconds <= 20) {
-    container.classList.add('warning');
-  }
-}
-
-function timeUp() {
-  if (gameState.answered) return;
-  gameState.answered = true;
-
-  var condition = CONDITIONS[gameState.order[gameState.currentRound]];
-
-  gameState.results.push({
-    condition: condition,
-    selectedId: null,
-    correct: false
-  });
-
-  var btns = document.querySelectorAll('.diagnosis-btn');
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].disabled = true;
-    if (btns[i].getAttribute('data-id') === condition.id) {
-      btns[i].classList.add('correct');
-    }
-  }
-
-  setTimeout(function() {
-    showFeedback(false, condition, null, true);
-  }, 400);
-}
-
-// ==================== TUTORIAL ====================
-var tutorialStep = 0;
-
-function showTutorial() {
-  tutorialStep = 0;
-  updateTutorialStep();
-  document.getElementById('tutorial-overlay').classList.add('active');
-}
-
-function updateTutorialStep() {
-  var steps = document.querySelectorAll('.tutorial-step');
-  var dots = document.querySelectorAll('.tutorial-dots .dot');
-  var btn = document.getElementById('tutorial-btn');
-
-  for (var i = 0; i < steps.length; i++) {
-    steps[i].classList.toggle('active', i === tutorialStep);
-    dots[i].classList.toggle('active', i === tutorialStep);
-  }
-
-  btn.textContent = tutorialStep === 2 ? '開始遊戲' : '下一步';
-}
-
-function handleTutorialAction() {
-  if (tutorialStep < 2) {
-    tutorialStep++;
-    updateTutorialStep();
-  } else {
-    if (document.getElementById('tutorial-skip-check').checked) {
-      localStorage.setItem('nicu_skip_tutorial', 'true');
-    }
-    document.getElementById('tutorial-overlay').classList.remove('active');
-    loadRound();
-  }
-}
-
 // ==================== ECG WAVEFORM ====================
 var waveformCtx, waveformAnim, waveformOffset = 0;
 
 function initWaveform() {
   var canvas = document.getElementById('waveform-canvas');
   if (!canvas) return;
-  var container = canvas.parentElement;
-  if (!container || container.offsetWidth === 0) return;
-  var rect = container.getBoundingClientRect();
+  var rect = canvas.parentElement.getBoundingClientRect();
   canvas.width = rect.width * 2;
   canvas.height = rect.height * 2;
   canvas.style.width = rect.width + 'px';
@@ -1994,10 +1704,13 @@ function initWaveform() {
   waveformCtx.scale(2, 2);
 }
 
+// Generate one PQRST beat as y-offsets array
 function generateBeat(cycleLen, amplitude, style) {
   var pts = [];
   var a = amplitude;
-  var pre = 0.08, p = 0.08, pr = 0.06, qrs = 0.10, st = 0.10, t = 0.12;
+
+  // Segment fractions
+  var pre = 0.08, p = 0.08, pr = 0.06, qrs = 0.10, st = 0.10, t = 0.12, post = 0.46;
 
   function addFlat(s, e, yOff) {
     var x0 = Math.round(s * cycleLen), x1 = Math.round(e * cycleLen);
@@ -2010,13 +1723,21 @@ function generateBeat(cycleLen, amplitude, style) {
   }
 
   var pos = 0;
-  addFlat(pos, pos + pre); pos += pre;
 
+  // Pre-baseline
+  addFlat(pos, pos + pre);
+  pos += pre;
+
+  // P wave
   var pH = a * (style === 'irregular' ? 0.08 : 0.12);
-  addBump(pos, pos + p, pH); pos += p;
+  addBump(pos, pos + p, pH);
+  pos += p;
 
-  addFlat(pos, pos + pr); pos += pr;
+  // PR segment
+  addFlat(pos, pos + pr);
+  pos += pr;
 
+  // QRS complex
   var qS = Math.round(pos * cycleLen), qE = Math.round((pos + qrs) * cycleLen), qLen = qE - qS;
   for (var i = 0; i < qLen; i++) {
     var tt = i / qLen, y = 0;
@@ -2032,13 +1753,19 @@ function generateBeat(cycleLen, amplitude, style) {
   }
   pos += qrs;
 
+  // ST segment
   var stOff = style === 'bounding' ? -a * 0.05 : 0;
-  addFlat(pos, pos + st, stOff); pos += st;
+  addFlat(pos, pos + st, stOff);
+  pos += st;
 
+  // T wave
   var tH = a * (style === 'bounding' ? 0.28 : 0.2);
-  addBump(pos, pos + t, tH); pos += t;
+  addBump(pos, pos + t, tH);
+  pos += t;
 
+  // Post-baseline
   addFlat(pos, 1.0);
+
   return pts;
 }
 
@@ -2047,6 +1774,7 @@ function drawWaveform(style) {
   var canvas = document.getElementById('waveform-canvas');
   var w = canvas.width / 2, h = canvas.height / 2, mid = h / 2;
 
+  // Cycle length (pixels per beat)
   var cycleLen;
   switch (style) {
     case 'tachypneic':  cycleLen = 55; break;
@@ -2059,6 +1787,8 @@ function drawWaveform(style) {
   var beat = generateBeat(cycleLen, h * 0.42, style);
 
   waveformCtx.clearRect(0, 0, w, h);
+
+  // Draw ECG line
   waveformCtx.strokeStyle = '#5dadec';
   waveformCtx.lineWidth = 1.5;
   waveformCtx.beginPath();
@@ -2068,6 +1798,7 @@ function drawWaveform(style) {
     var idx;
 
     if (style === 'irregular') {
+      // Add jitter per cycle for irregular rhythm
       var cycleNum = Math.floor(shifted / cycleLen);
       var jitter = Math.sin(cycleNum * 7.31) * 8;
       idx = Math.floor(((shifted + jitter) % cycleLen + cycleLen) % cycleLen);
@@ -2076,40 +1807,20 @@ function drawWaveform(style) {
     }
 
     var y = mid + (idx < beat.length ? beat[idx] : 0);
+
     if (x === 0) waveformCtx.moveTo(x, y);
     else waveformCtx.lineTo(x, y);
   }
 
   waveformCtx.stroke();
+
+  // Glow
   waveformCtx.strokeStyle = 'rgba(93,173,236,0.25)';
   waveformCtx.lineWidth = 4;
   waveformCtx.stroke();
 
   waveformOffset += 1.2;
   waveformAnim = requestAnimationFrame(function() { drawWaveform(style); });
-}
-
-// ==================== CLUE BOTTOM SHEET ====================
-var cluesOpen = false;
-
-function toggleClues() {
-  if (cluesOpen) {
-    closeClues();
-  } else {
-    openClues();
-  }
-}
-
-function openClues() {
-  cluesOpen = true;
-  document.getElementById('clues-container').classList.add('open');
-  document.getElementById('clue-backdrop').classList.add('active');
-}
-
-function closeClues() {
-  cluesOpen = false;
-  document.getElementById('clues-container').classList.remove('open');
-  document.getElementById('clue-backdrop').classList.remove('active');
 }
 
 // ==================== GAME LOGIC ====================
@@ -2133,16 +1844,11 @@ function startGame() {
   };
 
   document.getElementById('title-screen').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'block';
   document.getElementById('results-screen').style.display = 'none';
-  document.getElementById('game-screen').style.display = 'flex';
 
   initWaveform();
-
-  if (localStorage.getItem('nicu_skip_tutorial') !== 'true') {
-    showTutorial();
-  } else {
-    loadRound();
-  }
+  loadRound();
 }
 
 function loadRound() {
@@ -2152,6 +1858,7 @@ function loadRound() {
   gameState.discoveredClues = {};
   gameState.answered = false;
 
+  // Update UI
   document.getElementById('round-label').textContent = 'CASE ' + (round + 1) + ' / 5';
   document.getElementById('progress-fill').style.width = ((round + 1) * 20) + '%';
   document.getElementById('score-val').textContent = gameState.score;
@@ -2160,27 +1867,27 @@ function loadRound() {
   document.getElementById('clue-list').innerHTML = '';
   document.getElementById('prompt-text').textContent = '點擊寶寶的各個部位進行臨床觀察';
   document.getElementById('submit-hint').textContent = '收集線索後選擇你的診斷';
-  document.getElementById('clue-count-badge').textContent = '0';
 
-  closeClues();
-
+  // Set condition class on baby wrapper (controls overlays + filters)
   var wrapper = document.getElementById('baby-wrapper');
   wrapper.className = 'baby-wrapper cond-' + condition.id;
 
+  // Reset hotspot discovered state
   var zones = document.querySelectorAll('.hotspot-zone');
   for (var i = 0; i < zones.length; i++) {
     zones[i].classList.remove('discovered');
   }
 
+  // Vitals
   loadVitals(condition.vitals);
 
+  // Waveform
   if (waveformAnim) cancelAnimationFrame(waveformAnim);
   waveformOffset = 0;
-  initWaveform();
   drawWaveform(condition.waveformStyle);
 
+  // Diagnosis buttons
   loadDiagnosisButtons();
-  startTimer();
 }
 
 function loadVitals(vitals) {
@@ -2206,27 +1913,23 @@ function discoverClue(zone) {
   var hotspot = condition.hotspots[zone];
   if (!hotspot) return;
 
+  // Mark zone as discovered
   var zoneEl = document.querySelector('.hotspot-zone[data-zone="' + zone + '"]');
   if (zoneEl) zoneEl.classList.add('discovered');
 
+  // Add clue to list
   var clueList = document.getElementById('clue-list');
   var clueEl = document.createElement('div');
   clueEl.className = 'clue-item';
-  clueEl.innerHTML = '<div class="clue-label">' + hotspot.label + '</div>' +
+  var clueIcon = '<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="vertical-align:-1px;margin-right:4px;"><rect x="3" y="1.5" width="10" height="13" rx="1.5"/><path d="M5.5 1v2.5M10.5 1v2.5M6 7.5h4M6 10h3"/></svg>';
+  clueEl.innerHTML = '<div class="clue-label">' + clueIcon + hotspot.label + '</div>' +
     '<div class="clue-text">' + hotspot.text + '</div>';
   clueList.appendChild(clueEl);
   clueList.scrollTop = clueList.scrollHeight;
 
+  // Update prompt
   var count = Object.keys(gameState.discoveredClues).length;
   var remaining = 6 - count;
-  document.getElementById('clue-count-badge').textContent = count;
-
-  // Pulse the clue toggle button
-  var toggleBtn = document.getElementById('clue-toggle');
-  toggleBtn.classList.remove('has-new');
-  void toggleBtn.offsetWidth;
-  toggleBtn.classList.add('has-new');
-
   if (remaining > 0) {
     document.getElementById('prompt-text').textContent =
       '已發現 ' + count + ' 項線索，還有 ' + remaining + ' 個區域可探索';
@@ -2249,7 +1952,6 @@ function loadDiagnosisButtons() {
 function selectDiagnosis(selectedId) {
   if (gameState.answered) return;
   gameState.answered = true;
-  stopTimer();
 
   var condition = CONDITIONS[gameState.order[gameState.currentRound]];
   var isCorrect = selectedId === condition.id;
@@ -2261,6 +1963,7 @@ function selectDiagnosis(selectedId) {
     correct: isCorrect
   });
 
+  // Highlight buttons
   var btns = document.querySelectorAll('.diagnosis-btn');
   for (var i = 0; i < btns.length; i++) {
     btns[i].disabled = true;
@@ -2268,10 +1971,10 @@ function selectDiagnosis(selectedId) {
     else if (btns[i].getAttribute('data-id') === selectedId && !isCorrect) btns[i].classList.add('wrong');
   }
 
-  setTimeout(function() { showFeedback(isCorrect, condition, selectedId, false); }, 600);
+  setTimeout(function() { showFeedback(isCorrect, condition, selectedId); }, 600);
 }
 
-function showFeedback(isCorrect, condition, selectedId, isTimeout) {
+function showFeedback(isCorrect, condition, selectedId) {
   var overlay = document.getElementById('feedback-overlay');
   var icon = document.getElementById('feedback-icon');
   var title = document.getElementById('feedback-title');
@@ -2279,24 +1982,18 @@ function showFeedback(isCorrect, condition, selectedId, isTimeout) {
   var explanation = document.getElementById('feedback-explanation');
   var btnNext = document.getElementById('btn-next');
 
-  if (isTimeout) {
-    icon.className = 'feedback-icon timeout';
-    icon.textContent = '\u23F0';
-    title.className = 'feedback-title timeout';
-    title.textContent = '時間到！';
-    answer.textContent = '正確答案：' + condition.name;
-  } else {
-    icon.className = 'feedback-icon ' + (isCorrect ? 'correct' : 'wrong');
-    icon.textContent = isCorrect ? '\u2713' : '\u2717';
-    title.className = 'feedback-title ' + (isCorrect ? 'correct' : 'wrong');
-    title.textContent = isCorrect ? '診斷正確！' : '診斷有誤';
-    answer.textContent = isCorrect ? condition.name : '正確答案：' + condition.name;
-  }
+  icon.className = 'feedback-icon ' + (isCorrect ? 'correct' : 'wrong');
+  icon.textContent = isCorrect ? '\u2713' : '\u2717';
+
+  title.className = 'feedback-title ' + (isCorrect ? 'correct' : 'wrong');
+  title.textContent = isCorrect ? '診斷正確！' : '診斷有誤';
+
+  answer.textContent = isCorrect ? condition.name : '正確答案：' + condition.name;
 
   explanation.innerHTML = condition.explanation;
+
   btnNext.textContent = gameState.currentRound < 4 ? '下一題' : '查看結果';
 
-  closeClues();
   overlay.classList.add('active');
 }
 
@@ -2311,7 +2008,6 @@ function showResults() {
   document.getElementById('game-screen').style.display = 'none';
   document.getElementById('results-screen').style.display = 'flex';
   if (waveformAnim) cancelAnimationFrame(waveformAnim);
-  stopTimer();
 
   var score = gameState.score;
   var circle = document.getElementById('results-circle');
@@ -2351,7 +2047,7 @@ function restartGame() {
   startGame();
 }
 
-// ==================== EVENT HANDLERS ====================
+// ==================== HOTSPOT CLICK BINDING ====================
 document.addEventListener('DOMContentLoaded', function() {
   var zones = document.querySelectorAll('.hotspot-zone');
   for (var i = 0; i < zones.length; i++) {
@@ -2364,6 +2060,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// Keyboard shortcuts (1-5 for diagnosis)
 document.addEventListener('keydown', function(e) {
   if (gameState.answered) return;
   var num = parseInt(e.key);
@@ -2372,6 +2069,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+// Re-init waveform on orientation/resize change
 var resizeTimer;
 window.addEventListener('resize', function() {
   clearTimeout(resizeTimer);
