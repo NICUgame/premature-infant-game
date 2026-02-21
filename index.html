@@ -1373,10 +1373,16 @@ const cookieStorage = {
       acc[decodeURIComponent(k)] = decodeURIComponent(v.join('='));
       return acc;
     }, {});
-    if (cookies[key]) return cookies[key];
-    let val = '', i = 0;
-    while (cookies[key + '.' + i] !== undefined) { val += cookies[key + '.' + i]; i++; }
-    return val || null;
+    let raw = cookies[key] || null;
+    if (!raw) {
+      let chunked = '', i = 0;
+      while (cookies[key + '.' + i] !== undefined) { chunked += cookies[key + '.' + i]; i++; }
+      raw = chunked || null;
+    }
+    if (raw && raw.startsWith('base64-')) {
+      try { return atob(raw.slice(7)); } catch { return null; }
+    }
+    return raw;
   },
   setItem(key, value) {
     document.cookie = key + '=' + encodeURIComponent(value) + ';domain=.yi-hung-lee.work;path=/;secure;samesite=lax;max-age=31536000';
