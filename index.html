@@ -1380,7 +1380,7 @@ const cookieStorage = {
       raw = chunked || null;
     }
     if (raw && raw.startsWith('base64-')) {
-      try { return atob(raw.slice(7)); } catch { return null; }
+      try { return atob(raw.slice(7).replace(/-/g, '+').replace(/_/g, '/')); } catch { return null; }
     }
     return raw;
   },
